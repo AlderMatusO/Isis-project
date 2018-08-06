@@ -16,10 +16,10 @@ class CreateDireccionesTable extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->increments('id');
             $table->string('calle', 60);
-            $table->integer('numero_ext');
-            $table->integer('numero_int')->nullable(true);
+            $table->unsignedSmallInteger('numero_ext');
+            $table->unsignedSmallInteger('numero_int')->nullable(true);
             $table->string('colonia', 60);
-            $table->tinyInteger('cp');
+            $table->unsignedInteger('cp');
         });
     }
 

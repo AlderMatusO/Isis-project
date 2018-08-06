@@ -17,7 +17,7 @@ class CreateDatosPersonalesTable extends Migration
             $table->increments('id');
             $table->string('nombres', 70);
             $table->string('apellidos', 70);
-            $table->smallInteger('telefono');
+            $table->unsignedInteger('telefono');
             $table->unsignedInteger('referencia')->nullable(true);
             $table->unsignedInteger('parentezco')->nullable(true);
             $table->unsignedInteger('direccion')->nullable(true);
@@ -36,7 +36,7 @@ class CreateDatosPersonalesTable extends Migration
             ->onDelete('set null')->onUpdate('cascade');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

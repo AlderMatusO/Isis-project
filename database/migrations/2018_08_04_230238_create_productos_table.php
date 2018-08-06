@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsuariosTable extends Migration
+class CreateProductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,27 +13,21 @@ class CreateUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->string('nombre', 20)->primary();
-            $table->string('password', 65);
+        Schema::create('productos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nombre', 35);
             $table->unsignedInteger('tipo');
-            $table->unsignedInteger('datos');
-            
+            $table->unsignedInteger('categoria');
+
             //+++++++   llaves foreaneas    +++++++
             $table->foreign('tipo')
-            ->references('id')->on('tipos_usuario')
+            ->references('id')->on('productos_generales')
             ->onDelete('restrict')->onUpdate('cascade');
-
-            $table->foreign('datos')
-            ->references('id')->on('datos_personales')
+            $table->foreign('categoria')
+            ->references('id')->on('categorias_producto')
             ->onDelete('restrict')->onUpdate('cascade');
-
-            //+++++++   columnas de la app   +++++++
-            $table->rememberToken();
-            $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -41,6 +35,6 @@ class CreateUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('productos');
     }
 }

@@ -13,13 +13,34 @@ class CreateCatalogueTables extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_usuarios', function (Blueprint $table) {
+        Schema::create('tipos_usuario', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion');
+            $table->string('descripcion', 20);
         });
+
         Schema::create('parentezcos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion');
+            $table->string('descripcion', 20);
+        });
+
+        Schema::create('categorias_producto', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descripcion', 20);
+        });
+
+        Schema::create('modos_servicio',function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descripcion', 20);
+        });
+
+        Schema::create('estados_consumo',function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descripcion', 20);
+        });
+
+        Schema::create('metodos_pago',function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descripcion', 20);
         });
     }
 
@@ -30,7 +51,11 @@ class CreateCatalogueTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipos_usuarios');
+        Schema::dropIfExists('tipos_usuario');
         Schema::dropIfExists('parentezcos');
+        Schema::dropIfExists('categorias_producto');
+        Schema::dropIfExists('modos_servicio');
+        Schema::dropIfExists('estados_consumo');
+        Schema::dropIfExists('metodos_pago');
     }
 }
