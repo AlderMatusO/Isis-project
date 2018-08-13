@@ -16,16 +16,16 @@ class CreateUsuariosTable extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->string('nombre', 20)->primary();
             $table->string('password', 65);
-            $table->unsignedInteger('tipo');
-            $table->unsignedInteger('datos');
-            
+            $table->unsignedInteger('tipo_id');
+            $table->unsignedInteger('datos_id');
+            $table->boolean('activo');
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('tipo')
+            $table->foreign('tipo_id')
             ->references('id')->on('tipos_usuario')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('datos')
-            ->references('id')->on('datos_personales')
+            $table->foreign('datos_id')
+            ->references('id')->on('personas')
             ->onDelete('restrict')->onUpdate('cascade');
 
             //+++++++   columnas de la app   +++++++

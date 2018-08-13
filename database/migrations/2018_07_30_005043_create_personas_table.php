@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDatosPersonalesTable extends Migration
+class CreatePersonasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,25 @@ class CreateDatosPersonalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('datos_personales', function (Blueprint $table) {
+        Schema::create('personas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombres', 70);
             $table->string('apellidos', 70);
             $table->unsignedInteger('telefono');
-            $table->unsignedInteger('referencia')->nullable(true);
-            $table->unsignedInteger('parentezco')->nullable(true);
-            $table->unsignedInteger('direccion')->nullable(true);
+            $table->unsignedInteger('referencia_id')->nullable(true);
+            $table->unsignedInteger('parentezco_id')->nullable(true);
+            $table->unsignedInteger('direccion_id')->nullable(true);
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('referencia')
-            ->references('id')->on('datos_personales')
+            $table->foreign('referencia_id')
+            ->references('id')->on('personas')
             ->onDelete('set null')->onUpdate('cascade');
 
-            $table->foreign('parentezco')
+            $table->foreign('parentezco_id')
             ->references('id')->on('parentezcos')
             ->onDelete('set null')->onUpdate('cascade');
 
-            $table->foreign('direccion')
+            $table->foreign('direccion_id')
             ->references('id')->on('direcciones')
             ->onDelete('set null')->onUpdate('cascade');
         });
@@ -44,6 +44,6 @@ class CreateDatosPersonalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datos_personales');
+        Schema::dropIfExists('personas');
     }
 }

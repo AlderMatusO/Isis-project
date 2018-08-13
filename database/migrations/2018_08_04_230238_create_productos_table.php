@@ -16,14 +16,14 @@ class CreateProductosTable extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 35);
-            $table->unsignedInteger('tipo');
-            $table->unsignedInteger('categoria');
+            $table->unsignedInteger('tipo_id');
+            $table->unsignedInteger('categoria_id');
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('tipo')
+            $table->foreign('tipo_id')
             ->references('id')->on('productos_generales')
             ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('categoria')
+            $table->foreign('categoria_id')
             ->references('id')->on('categorias_producto')
             ->onDelete('restrict')->onUpdate('cascade');
         });

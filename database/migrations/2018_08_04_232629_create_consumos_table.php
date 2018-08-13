@@ -15,22 +15,22 @@ class CreateConsumosTable extends Migration
     {
         Schema::create('consumos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('mesa', 10);
-            $table->string('mesero', 20);
+            $table->string('mesa_id', 10);
+            $table->string('mesero_id', 20);
             $table->date('fecha');
             $table->time('hora');
-            $table->unsignedInteger('estado');
+            $table->unsignedInteger('estado_id');
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('mesa')
+            $table->foreign('mesa_id')
             ->references('nombre')->on('mesas')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('mesero')
+            $table->foreign('mesero_id')
             ->references('nombre')->on('usuarios')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('estado')
+            $table->foreign('estado_id')
             ->references('id')->on('estados_consumo')
             ->onDelete('restrict')->onUpdate('cascade');
         });

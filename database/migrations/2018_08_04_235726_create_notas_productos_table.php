@@ -14,20 +14,20 @@ class CreateNotasProductosTable extends Migration
     public function up()
     {
         Schema::create('notas_productos', function (Blueprint $table) {
-            $table->unsignedInteger('producto');
-            $table->unsignedInteger('nota');
+            $table->unsignedInteger('producto_id');
+            $table->unsignedInteger('nota_id');
             $table->unsignedDecimal('cantidad');
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('producto')
+            $table->foreign('producto_id')
             ->references('id')->on('precios_producto')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('nota')
+            $table->foreign('nota_id')
             ->references('id')->on('notas')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->primary(['producto', 'nota']);
+            $table->primary(['producto_id', 'nota_id']);
         });
     }
 

@@ -15,18 +15,18 @@ class CreateNotasTable extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('consumo');
-            $table->unsignedInteger('metodo_pago')->nullable();
+            $table->unsignedInteger('consumo_id');
+            $table->unsignedInteger('metodo_pago_id')->nullable();
             $table->unsignedDecimal('subtotal', 5, 2)->nullable();
             $table->unsignedDecimal('iva', 5, 2)->nullable();
             $table->unsignedDecimal('total', 5, 2)->nullable();
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('metodo_pago')
+            $table->foreign('metodo_pago_id')
             ->references('id')->on('metodos_pago')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('consumo')
+            $table->foreign('consumo_id')
             ->references('id')->on('consumos')
             ->onDelete('restrict')->onUpdate('cascade');
         });

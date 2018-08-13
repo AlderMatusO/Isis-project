@@ -16,26 +16,30 @@ class UsuariosTablesSeeder extends Seeder
         	array(
 	        	'nombre' => 'ssanchez',
 	        	'password' => bcrypt('123456'),
-	        	'tipo' => 1,
-	        	'datos' => 2
+	        	'activo' => true,
+	        	'tipo_id' => 1,
+	        	'datos_id' => 2
         	),
         	array(
 	        	'nombre' => 'mfong',
 	        	'password' => bcrypt('puebla123'),
-	        	'tipo' => 3,
-	        	'datos' => 4
+	        	'activo' => true,
+	        	'tipo_id' => 3,
+	        	'datos_id' => 4
         	),
         	array(
 	        	'nombre' => 'jrodriguez',
 	        	'password' => bcrypt('jrn@123'),
-	        	'tipo' => 2,
-	        	'datos' => 6
+	        	'activo' => true,
+	        	'tipo_id' => 2,
+	        	'datos_id' => 6
         	),
         	array(
 	        	'nombre' => 'amatus',
 	        	'password' => bcrypt('arma2018'),
-	        	'tipo' => 2,
-	        	'datos' => 8
+	        	'activo' => true,
+	        	'tipo_id' => 2,
+	        	'datos_id' => 8
         	)
         );
         $direcciones = array(
@@ -73,65 +77,65 @@ class UsuariosTablesSeeder extends Seeder
 	        	'nombres' => 'Joel Alejandro',
 	        	'apellidos' => 'Sanchez Ortiz',
 	        	'telefono' => 2221957237,
-	        	'referencia' => null,
-	        	'parentezco' => null,
-	        	'direccion' => null
+	        	'referencia_id' => null,
+	        	'parentezco_id' => null,
+	        	'direccion_id' => null
 	        ),
 	        array(
 	        	'nombres' => 'Armando',
 	        	'apellidos' => 'Sanchez Ortiz',
 	        	'telefono' => 2221028301,
-	        	'referencia' => 1,
-	        	'parentezco' => 2,
-	        	'direccion' => 1
+	        	'referencia_id' => 1,
+	        	'parentezco_id' => 2,
+	        	'direccion_id' => 1
 	        ),
 	        array(
 	        	'nombres' => 'Gabriela',
 	        	'apellidos' => 'Fong López',
 	        	'telefono' => 2223790822,
-	        	'referencia' => null,
-	        	'parentezco' => null,
-	        	'direccion' => null
+	        	'referencia_id' => null,
+	        	'parentezco_id' => null,
+	        	'direccion_id' => null
 	        ),
 	        array(
 	        	'nombres' => 'Magaly',
 	        	'apellidos' => 'Fong Juárez',
 	        	'telefono' => 2224039421,
-	        	'referencia' => 3,
-	        	'parentezco' => 1,
-	        	'direccion' => 2
+	        	'referencia_id' => 3,
+	        	'parentezco_id' => 1,
+	        	'direccion_id' => 2
 	        ),
 	        array(
 	        	'nombres' => 'Joanna',
 	        	'apellidos' => 'Sosa Rodriguez',
 	        	'telefono' => 2222452920,
-	        	'referencia' => null,
-	        	'parentezco' => null,
-	        	'direccion' => null
+	        	'referencia_id' => null,
+	        	'parentezco_id' => null,
+	        	'direccion_id' => null
 	        ),
 	        array(
 	        	'nombres' => 'Juan Carlos',
 	        	'apellidos' => 'Rodriguez Mercado',
 	        	'telefono' => 2223094823,
-	        	'referencia' => 5,
-	        	'parentezco' => 3,
-	        	'direccion' => 3
+	        	'referencia_id' => 5,
+	        	'parentezco_id' => 3,
+	        	'direccion_id' => 3
 	        ),
 	        array(
 	        	'nombres' => 'Alfredo',
 	        	'apellidos' => 'Matus Cortes',
 	        	'telefono' => 2222595683,
-	        	'referencia' => null,
-	        	'parentezco' => null,
-	        	'direccion' => null
+	        	'referencia_id' => null,
+	        	'parentezco_id' => null,
+	        	'direccion_id' => null
 	        ),
 	        array(
 	        	'nombres' => 'Aldo Rafael',
 	        	'apellidos' => 'Matus Angulo',
 	        	'telefono' => 2223958359,
-	        	'referencia' => 7,
-	        	'parentezco' => 3,
-	        	'direccion' => 4
+	        	'referencia_id' => 7,
+	        	'parentezco_id' => 3,
+	        	'direccion_id' => 4
 	        ),
         );
 
@@ -139,7 +143,7 @@ class UsuariosTablesSeeder extends Seeder
         	DB::table('direcciones')->insert($dir);
         }
         foreach ($datos as $dato) {
-        	DB::table('datos_personales')->insert($dato);
+        	DB::table('personas')->insert($dato);
         }
 	    foreach($usuarios as $usr){
 	        DB::table('usuarios')->insert($usr);

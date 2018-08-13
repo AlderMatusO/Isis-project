@@ -15,16 +15,16 @@ class CreatePreciosProductoTable extends Migration
     {
         Schema::create('precios_producto', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('producto');
+            $table->unsignedInteger('producto_id');
             $table->unsignedDecimal('precio', 7, 2);
-            $table->unsignedInteger('modo_servicio');
+            $table->unsignedInteger('modo_servicio_id');
 
             //+++++++   llaves foreaneas    +++++++
-            $table->foreign('producto')
+            $table->foreign('producto_id')
             ->references('id')->on('productos')
             ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->foreign('modo_servicio')
+            $table->foreign('modo_servicio_id')
             ->references('id')->on('modos_servicio')
             ->onDelete('restrict')->onUpdate('cascade');
         });

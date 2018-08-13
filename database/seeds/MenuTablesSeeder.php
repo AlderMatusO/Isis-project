@@ -98,896 +98,896 @@ class MenuTablesSeeder extends Seeder
         $productos = array(
         	array(
         		'nombre' => 'Barbacoa con hueso',
-        		'tipo' => 1,
-        		'categoria' => 2
+        		'tipo_id' => 1,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Barbacoa sin hueso',
-        		'tipo' => 1,
-        		'categoria' => 2
+        		'tipo_id' => 1,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Barbacoa especial',
-        		'tipo' => 1,
-        		'categoria' => 2
+        		'tipo_id' => 1,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Pancita enchilada',
-        		'tipo' => 2,
-        		'categoria' => 2
+        		'tipo_id' => 2,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Mixiote de carnero',
-        		'tipo' => 3,
-        		'categoria' => 2
+        		'tipo_id' => 3,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Consomé de borrego',
-        		'tipo' => 4,
-        		'categoria' => 1
+        		'tipo_id' => 4,
+        		'categoria_id' => 1
         	),
         	array(
         		'nombre' => 'Arroz blanco',
-        		'tipo' => 5,
-        		'categoria' => 3
+        		'tipo_id' => 5,
+        		'categoria_id' => 3
         	),
         	array(
         		'nombre' => 'Quesadillas',
-        		'tipo' => 6,
-        		'categoria' => 3
+        		'tipo_id' => 6,
+        		'categoria_id' => 3
         	),
         	array(
         		'nombre' => 'Picaditas',
-        		'tipo' => 6,
-        		'categoria' => 3
+        		'tipo_id' => 6,
+        		'categoria_id' => 3
         	),
         	array(
         		'nombre' => 'Tortillas',
-        		'tipo' => 6,
-        		'categoria' => 3
+        		'tipo_id' => 6,
+        		'categoria_id' => 3
         	),
         	array(
         		'nombre' => 'Queso c/ Aguacate',
-        		'tipo' => 7,
-        		'categoria' => 3
+        		'tipo_id' => 7,
+        		'categoria_id' => 3
         	),
         	array(
         		'nombre' => 'Criadillas',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Hígado',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Codillos',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Patitas de Carnero',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Cabeza de Carnero en Barbacoa',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Raspadura',
-        		'tipo' => 8,
-        		'categoria' => 2
+        		'tipo_id' => 8,
+        		'categoria_id' => 2
         	),
         	array(
         		'nombre' => 'Torres 10',
-        		'tipo' => 9,
-        		'categoria' => 4
+        		'tipo_id' => 9,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Magno',
-        		'tipo' => 9,
-        		'categoria' => 4
+        		'tipo_id' => 9,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Terry',
-        		'tipo' => 9,
-        		'categoria' => 4
+        		'tipo_id' => 9,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Herradura Reposado',
-        		'tipo' => 10,
-        		'categoria' => 4
+        		'tipo_id' => 10,
+        		'categoria_id' => 4
 
         	),
         	array(
         		'nombre' => 'Don Julio Reposado',
-        		'tipo' => 10,
-        		'categoria' => 4
+        		'tipo_id' => 10,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Hornitos Reposado',
-        		'tipo' => 10,
-        		'categoria' => 4
+        		'tipo_id' => 10,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Tradicional Frío',
-        		'tipo' => 10,
-        		'categoria' => 4
+        		'tipo_id' => 10,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Appleton Especial',
-        		'tipo' => 11,
-        		'categoria' => 4
+        		'tipo_id' => 11,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Bacardi Solera',
-        		'tipo' => 11,
-        		'categoria' => 4
+        		'tipo_id' => 11,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Bacardi Añejo',
-        		'tipo' => 11,
-        		'categoria' => 4
+        		'tipo_id' => 11,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Bacardi Blanco',
-        		'tipo' => 11,
-        		'categoria' => 4
+        		'tipo_id' => 11,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Absolut Azúl',
-        		'tipo' => 12,
-        		'categoria' => 4
+        		'tipo_id' => 12,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Wyborowa',
-        		'tipo' => 12,
-        		'categoria' => 4
+        		'tipo_id' => 12,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Smirnoff',
-        		'tipo' => 12,
-        		'categoria' => 4
+        		'tipo_id' => 12,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Anis con Anis',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Bull',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Paloma',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Piedra',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Sangria',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Tom Collin\'s',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Charro Negro',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Rusa',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Michelada',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Chelada',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Clamato s/n Alcohol',
-        		'tipo' => 13,
-        		'categoria' => 5
+        		'tipo_id' => 13,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Clamato c/n Cerveza',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Clamato c/n Vodka',
-        		'tipo' => 13,
-        		'categoria' => 4
+        		'tipo_id' => 13,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Buchanan\'s 12 años',
-        		'tipo' => 14,
-        		'categoria' => 4
+        		'tipo_id' => 14,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Chivas Regal 12 años',
-        		'tipo' => 14,
-        		'categoria' => 4
+        		'tipo_id' => 14,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Jhonny Walker Etiqueta Roja',
-        		'tipo' => 14,
-        		'categoria' => 4
+        		'tipo_id' => 14,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Corona',
-        		'tipo' => 15,
-        		'categoria' => 4
+        		'tipo_id' => 15,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Victoria',
-        		'tipo' => 15,
-        		'categoria' => 4
+        		'tipo_id' => 15,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Negra Modelo',
-        		'tipo' => 15,
-        		'categoria' => 4
+        		'tipo_id' => 15,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Modelo Especial',
-        		'tipo' => 15,
-        		'categoria' => 4
+        		'tipo_id' => 15,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Anis Chinchón',
-        		'tipo' => 16,
-        		'categoria' => 4
+        		'tipo_id' => 16,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Licor 43',
-        		'tipo' => 16,
-        		'categoria' => 4
+        		'tipo_id' => 16,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Amareto',
-        		'tipo' => 16,
-        		'categoria' => 4
+        		'tipo_id' => 16,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Bailey\'s',
-        		'tipo' => 16,
-        		'categoria' => 4
+        		'tipo_id' => 16,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Sambuca Vacari',
-        		'tipo' => 16,
-        		'categoria' => 4
+        		'tipo_id' => 16,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Pulque',
-        		'tipo' => 17,
-        		'categoria' => 4
+        		'tipo_id' => 17,
+        		'categoria_id' => 4
         	),
         	array(
         		'nombre' => 'Jugo de Naranja',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Agua de Sabor',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Refresco',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Limonada',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Naranjada',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Chocomilk',
-        		'tipo' => 18,
-        		'categoria' => 5
+        		'tipo_id' => 18,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Café Americano',
-        		'tipo' => 19,
-        		'categoria' => 5
+        		'tipo_id' => 19,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Café Expreso',
-        		'tipo' => 19,
-        		'categoria' => 5
+        		'tipo_id' => 19,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Capuccino',
-        		'tipo' => 19,
-        		'categoria' => 5
+        		'tipo_id' => 19,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Café Lechero',
-        		'tipo' => 19,
-        		'categoria' => 5
+        		'tipo_id' => 19,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Café de Olla',
-        		'tipo' => 19,
-        		'categoria' => 5
+        		'tipo_id' => 19,
+        		'categoria_id' => 5
         	),
         	array(
         		'nombre' => 'Carajillo',
-        		'tipo' => 19,
-        		'categoria' => 4
+        		'tipo_id' => 19,
+        		'categoria_id' => 4
         	),
         	array(
 	        	'nombre' => 'Duraznos',
-	        	'tipo' => 20,
-        		'categoria' => 6
+	        	'tipo_id' => 20,
+        		'categoria_id' => 6
 	        ),
 	        array(
 	        	'nombre' => 'Flan',
-	        	'tipo' => 20,
-        		'categoria' => 6
+	        	'tipo_id' => 20,
+        		'categoria_id' => 6
 	        ),
 	        array(
 	        	'nombre' => 'Galletas',
-	        	'tipo' => 20,
-        		'categoria' => 6
+	        	'tipo_id' => 20,
+        		'categoria_id' => 6
 	        )
         );
 		$precios = array(
 			array(
 				'precio' => 440.00,
-				'modo_servicio' => 1,
-				'producto' => 1
+				'modo_servicio_id' => 1,
+				'producto_id' => 1
 			),
 			array(
 				'precio' => 220.00,
-				'modo_servicio' => 2,
-				'producto' => 1
+				'modo_servicio_id' => 2,
+				'producto_id' => 1
 			),
 			array(
 				'precio' => 130.00,
-				'modo_servicio' => 3,
-				'producto' => 1
+				'modo_servicio_id' => 3,
+				'producto_id' => 1
 			),
 			array(
 				'precio' => 540.00,
-				'modo_servicio' => 1,
-				'producto' => 2
+				'modo_servicio_id' => 1,
+				'producto_id' => 2
 			),
 			array(
 				'precio' => 270.00,
-				'modo_servicio' => 2,
-				'producto' => 2
+				'modo_servicio_id' => 2,
+				'producto_id' => 2
 			),
 			array(
 				'precio' => 150.00,
-				'modo_servicio' => 3,
-				'producto' => 2
+				'modo_servicio_id' => 3,
+				'producto_id' => 2
 			),
 			array(
 				'precio' => 35.00,
-				'modo_servicio' => 4,
-				'producto' => 2
+				'modo_servicio_id' => 4,
+				'producto_id' => 2
 			),
 			array(
 				'precio' => 680.00,
-				'modo_servicio' => 1,
-				'producto' => 3
+				'modo_servicio_id' => 1,
+				'producto_id' => 3
 			),
 			array(
 				'precio' => 340.00,
-				'modo_servicio' => 2,
-				'producto' => 3
+				'modo_servicio_id' => 2,
+				'producto_id' => 3
 			),
 			array(
 				'precio' => 190.00,
-				'modo_servicio' => 3,
-				'producto' => 3
+				'modo_servicio_id' => 3,
+				'producto_id' => 3
 			),
 			array(
 				'precio' => 40.00,
-				'modo_servicio' => 4,
-				'producto' => 3
+				'modo_servicio_id' => 4,
+				'producto_id' => 3
 			),
 			array(
 				'precio' => 420.00,
-				'modo_servicio' => 1,
-				'producto' => 4
+				'modo_servicio_id' => 1,
+				'producto_id' => 4
 			),
 			array(
 				'precio' => 420.00,
-				'modo_servicio' => 2,
-				'producto' => 4
+				'modo_servicio_id' => 2,
+				'producto_id' => 4
 			),
 			array(
 				'precio' => 420.00,
-				'modo_servicio' => 3,
-				'producto' => 4
+				'modo_servicio_id' => 3,
+				'producto_id' => 4
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 4,
-				'producto' => 4
+				'modo_servicio_id' => 4,
+				'producto_id' => 4
 			),
 			array(
 				'precio' => 95.00,
-				'modo_servicio' => 6,
-				'producto' => 5
+				'modo_servicio_id' => 6,
+				'producto_id' => 5
 			),
 			array(
 				'precio' => 50.00,
-				'modo_servicio' => 9,
-				'producto' => 6
+				'modo_servicio_id' => 9,
+				'producto_id' => 6
 			),
 			array(
         		'precio' => 30.00,
-				'modo_servicio' => 5,
-				'producto' => 7
+				'modo_servicio_id' => 5,
+				'producto_id' => 7
         	),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 8
+				'modo_servicio_id' => 5,
+				'producto_id' => 8
 			),
 			array(
 				'precio' => 50.00,
-				'modo_servicio' => 5,
-				'producto' => 9
+				'modo_servicio_id' => 5,
+				'producto_id' => 9
 			),
 			array(
 				'precio' => 2.00,
-				'modo_servicio' => 6,
-				'producto' => 10
+				'modo_servicio_id' => 6,
+				'producto_id' => 10
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 11
+				'modo_servicio_id' => 5,
+				'producto_id' => 11
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 12
+				'modo_servicio_id' => 5,
+				'producto_id' => 12
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 13
+				'modo_servicio_id' => 5,
+				'producto_id' => 13
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 14
+				'modo_servicio_id' => 5,
+				'producto_id' => 14
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 15
+				'modo_servicio_id' => 5,
+				'producto_id' => 15
 			),
 			array(
 				'precio' => 120.00,
-				'modo_servicio' => 6,
-				'producto' => 16
+				'modo_servicio_id' => 6,
+				'producto_id' => 16
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 5,
-				'producto' => 17
+				'modo_servicio_id' => 5,
+				'producto_id' => 17
 			),
 			array(
 				'precio' => 650.00,
-				'modo_servicio' => 7,
-				'producto' => 18
+				'modo_servicio_id' => 7,
+				'producto_id' => 18
 			),
 			array(
 				'precio' => 65.00,
-				'modo_servicio' => 8,
-				'producto' => 18
+				'modo_servicio_id' => 8,
+				'producto_id' => 18
 			),
 			array(
 				'precio' => 650.00,
-				'modo_servicio' => 7,
-				'producto' => 19
+				'modo_servicio_id' => 7,
+				'producto_id' => 19
 			),
 			array(
 				'precio' => 65.00,
-				'modo_servicio' => 8,
-				'producto' => 19
+				'modo_servicio_id' => 8,
+				'producto_id' => 19
 			),
 			array(
 				'precio' => 600.00,
-				'modo_servicio' => 7,
-				'producto' => 20
+				'modo_servicio_id' => 7,
+				'producto_id' => 20
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 8,
-				'producto' => 20
+				'modo_servicio_id' => 8,
+				'producto_id' => 20
 			),
 			array(
 				'precio' => 900.00,
-				'modo_servicio' => 7,
-				'producto' => 21
+				'modo_servicio_id' => 7,
+				'producto_id' => 21
 			),
 			array(
 				'precio' => 90.00,
-				'modo_servicio' => 8,
-				'producto' => 21
+				'modo_servicio_id' => 8,
+				'producto_id' => 21
 			),
 			array(
 				'precio' => 900.00,
-				'modo_servicio' => 7,
-				'producto' => 22
+				'modo_servicio_id' => 7,
+				'producto_id' => 22
 			),
 			array(
 				'precio' => 90.00,
-				'modo_servicio' => 8,
-				'producto' => 22
+				'modo_servicio_id' => 8,
+				'producto_id' => 22
 			),
 			array(
 				'precio' => 650.00,
-				'modo_servicio' => 7,
-				'producto' => 23
+				'modo_servicio_id' => 7,
+				'producto_id' => 23
 			),
 			array(
 				'precio' => 65.00,
-				'modo_servicio' => 8,
-				'producto' => 23
+				'modo_servicio_id' => 8,
+				'producto_id' => 23
 			),
 			array(
 				'precio' => 900.00,
-				'modo_servicio' => 7,
-				'producto' => 24
+				'modo_servicio_id' => 7,
+				'producto_id' => 24
 			),
 			array(
 				'precio' => 90.00,
-				'modo_servicio' => 8,
-				'producto' => 24
+				'modo_servicio_id' => 8,
+				'producto_id' => 24
 			),
 			array(
 				'precio' => 550.00,
-				'modo_servicio' => 7,
-				'producto' => 25
+				'modo_servicio_id' => 7,
+				'producto_id' => 25
 			),
 			array(
 				'precio' => 55.00,
-				'modo_servicio' => 8,
-				'producto' => 25
+				'modo_servicio_id' => 8,
+				'producto_id' => 25
 			),
 			array(
 				'precio' => 600.00,
-				'modo_servicio' => 7,
-				'producto' => 26
+				'modo_servicio_id' => 7,
+				'producto_id' => 26
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 8,
-				'producto' => 26
+				'modo_servicio_id' => 8,
+				'producto_id' => 26
 			),
 			array(
 				'precio' => 550.00,
-				'modo_servicio' => 7,
-				'producto' => 27
+				'modo_servicio_id' => 7,
+				'producto_id' => 27
 			),
 			array(
 				'precio' => 55.00,
-				'modo_servicio' => 8,
-				'producto' => 27
+				'modo_servicio_id' => 8,
+				'producto_id' => 27
 			),
 			array(
 				'precio' => 500.00,
-				'modo_servicio' => 7,
-				'producto' => 28
+				'modo_servicio_id' => 7,
+				'producto_id' => 28
 			),
 			array(
 				'precio' => 50.00,
-				'modo_servicio' => 8,
-				'producto' => 28
+				'modo_servicio_id' => 8,
+				'producto_id' => 28
 			),
 			array(
 				'precio' => 650.00,
-				'modo_servicio' => 7,
-				'producto' => 29
+				'modo_servicio_id' => 7,
+				'producto_id' => 29
 			),
 			array(
 				'precio' => 65.00,
-				'modo_servicio' => 8,
-				'producto' => 29
+				'modo_servicio_id' => 8,
+				'producto_id' => 29
 			),
 			array(
 				'precio' => 550.00,
-				'modo_servicio' => 7,
-				'producto' => 30
+				'modo_servicio_id' => 7,
+				'producto_id' => 30
 			),
 			array(
 				'precio' => 55.00,
-				'modo_servicio' => 8,
-				'producto' => 30
+				'modo_servicio_id' => 8,
+				'producto_id' => 30
 			),
 			array(
 				'precio' => 500.00,
-				'modo_servicio' => 7,
-				'producto' => 31
+				'modo_servicio_id' => 7,
+				'producto_id' => 31
 			),
 			array(
 				'precio' => 50.00,
-				'modo_servicio' => 8,
-				'producto' => 31
+				'modo_servicio_id' => 8,
+				'producto_id' => 31
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 32
+				'modo_servicio_id' => 8,
+				'producto_id' => 32
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 33
+				'modo_servicio_id' => 8,
+				'producto_id' => 33
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 34
+				'modo_servicio_id' => 8,
+				'producto_id' => 34
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 35
+				'modo_servicio_id' => 8,
+				'producto_id' => 35
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 36
+				'modo_servicio_id' => 8,
+				'producto_id' => 36
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 37
+				'modo_servicio_id' => 8,
+				'producto_id' => 37
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 38
+				'modo_servicio_id' => 8,
+				'producto_id' => 38
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 39
+				'modo_servicio_id' => 8,
+				'producto_id' => 39
 			),
 			array(
 				'precio' => 35.00,
-				'modo_servicio' => 8,
-				'producto' => 40
+				'modo_servicio_id' => 8,
+				'producto_id' => 40
 			),
 			array(
 				'precio' => 35.00,
-				'modo_servicio' => 8,
-				'producto' => 41
+				'modo_servicio_id' => 8,
+				'producto_id' => 41
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 8,
-				'producto' => 42
+				'modo_servicio_id' => 8,
+				'producto_id' => 42
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 43
+				'modo_servicio_id' => 8,
+				'producto_id' => 43
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 44
+				'modo_servicio_id' => 8,
+				'producto_id' => 44
 			),
 			array(
 				'precio' => 1200.00,
-				'modo_servicio' => 7,
-				'producto' => 45
+				'modo_servicio_id' => 7,
+				'producto_id' => 45
 			),
 			array(
 				'precio' => 120.00,
-				'modo_servicio' => 8,
-				'producto' => 45
+				'modo_servicio_id' => 8,
+				'producto_id' => 45
 			),
 			array(
 				'precio' => 1100.00,
-				'modo_servicio' => 7,
-				'producto' => 46
+				'modo_servicio_id' => 7,
+				'producto_id' => 46
 			),
 			array(
 				'precio' => 110.00,
-				'modo_servicio' => 8,
-				'producto' => 46
+				'modo_servicio_id' => 8,
+				'producto_id' => 46
 			),
 			array(
 				'precio' => 650.00,
-				'modo_servicio' => 7,
-				'producto' => 47
+				'modo_servicio_id' => 7,
+				'producto_id' => 47
 			),
 			array(
 				'precio' => 65.00,
-				'modo_servicio' => 8,
-				'producto' => 47
+				'modo_servicio_id' => 8,
+				'producto_id' => 47
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 48
+				'modo_servicio_id' => 8,
+				'producto_id' => 48
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 49
+				'modo_servicio_id' => 8,
+				'producto_id' => 49
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 50
+				'modo_servicio_id' => 8,
+				'producto_id' => 50
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 51
+				'modo_servicio_id' => 8,
+				'producto_id' => 51
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 8,
-				'producto' => 52
+				'modo_servicio_id' => 8,
+				'producto_id' => 52
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 53
+				'modo_servicio_id' => 8,
+				'producto_id' => 53
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 54
+				'modo_servicio_id' => 8,
+				'producto_id' => 54
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 55
+				'modo_servicio_id' => 8,
+				'producto_id' => 55
 			),
 			array(
 				'precio' => 80.00,
-				'modo_servicio' => 8,
-				'producto' => 56
+				'modo_servicio_id' => 8,
+				'producto_id' => 56
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 57
+				'modo_servicio_id' => 8,
+				'producto_id' => 57
 			),
 			array(
 				'precio' => 50.00,
-				'modo_servicio' => 9,
-				'producto' => 57
+				'modo_servicio_id' => 9,
+				'producto_id' => 57
 			),
 			array(
 				'precio' => 90.00,
-				'modo_servicio' => 10,
-				'producto' => 57
+				'modo_servicio_id' => 10,
+				'producto_id' => 57
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 58
+				'modo_servicio_id' => 8,
+				'producto_id' => 58
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 9,
-				'producto' => 58
+				'modo_servicio_id' => 9,
+				'producto_id' => 58
 			),
 			array(
 				'precio' => 100.00,
-				'modo_servicio' => 10,
-				'producto' => 58
+				'modo_servicio_id' => 10,
+				'producto_id' => 58
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 59
+				'modo_servicio_id' => 8,
+				'producto_id' => 59
 			),
 			array(
 				'precio' => 45.00,
-				'modo_servicio' => 9,
-				'producto' => 59
+				'modo_servicio_id' => 9,
+				'producto_id' => 59
 			),
 			array(
 				'precio' => 70.00,
-				'modo_servicio' => 10,
-				'producto' => 59
+				'modo_servicio_id' => 10,
+				'producto_id' => 59
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 60
+				'modo_servicio_id' => 8,
+				'producto_id' => 60
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 61
+				'modo_servicio_id' => 8,
+				'producto_id' => 61
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 62
+				'modo_servicio_id' => 8,
+				'producto_id' => 62
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 63
+				'modo_servicio_id' => 8,
+				'producto_id' => 63
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 64
+				'modo_servicio_id' => 8,
+				'producto_id' => 64
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 65
+				'modo_servicio_id' => 8,
+				'producto_id' => 65
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 66
+				'modo_servicio_id' => 8,
+				'producto_id' => 66
 			),
 			array(
 				'precio' => 30.00,
-				'modo_servicio' => 8,
-				'producto' => 67
+				'modo_servicio_id' => 8,
+				'producto_id' => 67
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 8,
-				'producto' => 68
+				'modo_servicio_id' => 8,
+				'producto_id' => 68
 			),
 			array(
 				'precio' => 60.00,
-				'modo_servicio' => 8,
-				'producto' => 69
+				'modo_servicio_id' => 8,
+				'producto_id' => 69
 			),
 			array(
 				'precio' => 45.00,
-				'modo_servicio' => 5,
-				'producto' => 70
+				'modo_servicio_id' => 5,
+				'producto_id' => 70
 			),
 			array(
 				'precio' => 35.00,
-				'modo_servicio' => 6,
-				'producto' => 71
+				'modo_servicio_id' => 6,
+				'producto_id' => 71
 			),
 			array(
 				'precio' => 25.00,
-				'modo_servicio' => 5,
-				'producto' => 72
+				'modo_servicio_id' => 5,
+				'producto_id' => 72
 			)
 		);
 
