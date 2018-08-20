@@ -1,0 +1,24 @@
+.mm-element {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.mm-element a {
+	color: #212529;
+}
+
+.mm-element a:visited {
+	color: #212529;
+}
+
+.mm-element a:hover {
+	text-decoration: none;
+	color: #b3b3b3;
+}
+
+.mm-element a:hover h5 {
+	text-decoration: underline;
+}
+
+.mm-e-title {
+	margin-top: 1rem;
+}
