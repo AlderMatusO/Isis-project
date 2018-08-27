@@ -15,83 +15,63 @@ class MenuTablesSeeder extends Seeder
         $productos_generales = array(
         	array(
 	        	'nombre' => 'Barbacoa',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Pancita',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Mixiote',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Consomé',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Arroz',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Antojito',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Botana',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Menudencias',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Brandy',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Tequila',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Ron',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Vodka',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Coctel',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Wisky',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Cerveza',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Licor',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Curado',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Bebidas Refrescantes',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Bebidas Calientes',
-	        	'ruta_imagen' => null,
 	        ),
 	        array(
 	        	'nombre' => 'Postres',
-	        	'ruta_imagen' => null,
 	        )
         );
 
@@ -99,363 +79,435 @@ class MenuTablesSeeder extends Seeder
         	array(
         		'nombre' => 'Barbacoa con hueso',
         		'tipo_id' => 1,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => 'barbacoa.png'
         	),
         	array(
         		'nombre' => 'Barbacoa sin hueso',
         		'tipo_id' => 1,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => 'barbacoa_sin_hueso.png'
         	),
         	array(
         		'nombre' => 'Barbacoa especial',
         		'tipo_id' => 1,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => 'barbacoa_especial.png'
         	),
         	array(
         		'nombre' => 'Pancita enchilada',
         		'tipo_id' => 2,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => 'pancita.png'
         	),
         	array(
         		'nombre' => 'Mixiote de carnero',
         		'tipo_id' => 3,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => 'mixiote.png'
         	),
         	array(
         		'nombre' => 'Consomé de borrego',
         		'tipo_id' => 4,
-        		'categoria_id' => 1
+        		'categoria_id' => 1,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Arroz blanco',
         		'tipo_id' => 5,
-        		'categoria_id' => 3
+        		'categoria_id' => 3,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Quesadillas',
         		'tipo_id' => 6,
-        		'categoria_id' => 3
+        		'categoria_id' => 3,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Picaditas',
         		'tipo_id' => 6,
-        		'categoria_id' => 3
+        		'categoria_id' => 3,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Tortillas',
         		'tipo_id' => 6,
-        		'categoria_id' => 3
+        		'categoria_id' => 3,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Queso c/ Aguacate',
         		'tipo_id' => 7,
-        		'categoria_id' => 3
+        		'categoria_id' => 3,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Criadillas',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Hígado',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Codillos',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Patitas de Carnero',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Cabeza de Carnero en Barbacoa',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Raspadura',
         		'tipo_id' => 8,
-        		'categoria_id' => 2
+        		'categoria_id' => 2,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Torres 10',
         		'tipo_id' => 9,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Magno',
         		'tipo_id' => 9,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Terry',
         		'tipo_id' => 9,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Herradura Reposado',
         		'tipo_id' => 10,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
 
         	),
         	array(
         		'nombre' => 'Don Julio Reposado',
         		'tipo_id' => 10,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Hornitos Reposado',
         		'tipo_id' => 10,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Tradicional Frío',
         		'tipo_id' => 10,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Appleton Especial',
         		'tipo_id' => 11,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Bacardi Solera',
         		'tipo_id' => 11,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Bacardi Añejo',
         		'tipo_id' => 11,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Bacardi Blanco',
         		'tipo_id' => 11,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Absolut Azúl',
         		'tipo_id' => 12,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Wyborowa',
         		'tipo_id' => 12,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Smirnoff',
         		'tipo_id' => 12,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Anis con Anis',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Bull',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Paloma',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Piedra',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Sangria',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Tom Collin\'s',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Charro Negro',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Rusa',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Michelada',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Chelada',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Clamato s/n Alcohol',
         		'tipo_id' => 13,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Clamato c/n Cerveza',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Clamato c/n Vodka',
         		'tipo_id' => 13,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Buchanan\'s 12 años',
         		'tipo_id' => 14,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Chivas Regal 12 años',
         		'tipo_id' => 14,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Jhonny Walker Etiqueta Roja',
         		'tipo_id' => 14,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Corona',
         		'tipo_id' => 15,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Victoria',
         		'tipo_id' => 15,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Negra Modelo',
         		'tipo_id' => 15,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Modelo Especial',
         		'tipo_id' => 15,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Anis Chinchón',
         		'tipo_id' => 16,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Licor 43',
         		'tipo_id' => 16,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Amareto',
         		'tipo_id' => 16,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Bailey\'s',
         		'tipo_id' => 16,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Sambuca Vacari',
         		'tipo_id' => 16,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Pulque',
         		'tipo_id' => 17,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Jugo de Naranja',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Agua de Sabor',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Refresco',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Limonada',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Naranjada',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Chocomilk',
         		'tipo_id' => 18,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Café Americano',
         		'tipo_id' => 19,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Café Expreso',
         		'tipo_id' => 19,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Capuccino',
         		'tipo_id' => 19,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Café Lechero',
         		'tipo_id' => 19,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Café de Olla',
         		'tipo_id' => 19,
-        		'categoria_id' => 5
+        		'categoria_id' => 5,
+        		'nombre_imagen' => null
         	),
         	array(
         		'nombre' => 'Carajillo',
         		'tipo_id' => 19,
-        		'categoria_id' => 4
+        		'categoria_id' => 4,
+        		'nombre_imagen' => null
         	),
         	array(
 	        	'nombre' => 'Duraznos',
 	        	'tipo_id' => 20,
-        		'categoria_id' => 6
+        		'categoria_id' => 6,
+        		'nombre_imagen' => null
 	        ),
 	        array(
 	        	'nombre' => 'Flan',
 	        	'tipo_id' => 20,
-        		'categoria_id' => 6
+        		'categoria_id' => 6,
+        		'nombre_imagen' => null
 	        ),
 	        array(
 	        	'nombre' => 'Galletas',
 	        	'tipo_id' => 20,
-        		'categoria_id' => 6
+        		'categoria_id' => 6,
+        		'nombre_imagen' => null
 	        )
         );
 		$precios = array(

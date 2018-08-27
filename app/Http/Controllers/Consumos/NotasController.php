@@ -7,6 +7,7 @@ use App\Consumo;
 use App\PrecioProducto;
 use App\Nota;
 use App\Producto;
+use App\CategoriaProducto;
 
 use App\Http\Controllers\Controller;
 
@@ -24,6 +25,8 @@ class NotasController extends Controller
 
     public function index()
     {
-    	return view('consumos.notas');
+        $cats = CategoriaProducto::all();
+        $prods = Producto::where("categoria_id", 2)->get()->sortBy("tipo_id");
+    	return view("consumos.notas",["categorias"=>$cats, "productos"=>$prods]);
     }
 }

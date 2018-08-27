@@ -1,6 +1,8 @@
+
 .mm-element {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    font-family: "Open-sans"
 }
 .mm-element a {
 	color: #212529;
@@ -21,4 +23,12 @@
 
 .mm-e-title {
 	margin-top: 1rem;
+}
+
+.product-header {
+	font-weight: bold;
+}
+
+.product-detail {
+	font-size: small;
 }

@@ -16,7 +16,6 @@ class CreateProductosGeneralesTable extends Migration
         Schema::create('productos_generales', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 25);
-            $table->string('ruta_imagen', 50)->nullable();
         });
     }
 
