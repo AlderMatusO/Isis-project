@@ -24,4 +24,8 @@ class Producto extends Model
     {
     	return $this->hasMany('App\PrecioProducto');
     }
+
+    public function getNombreImagenAttribute( $value ) {
+        return asset('images/Productos/'. ($value!=""? $value : 'default.png'));
+    }
 }
