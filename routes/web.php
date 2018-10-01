@@ -20,4 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/consumos', 'Consumos\NotasController@index')->name('consumos');
 Route::get('/consumos/categorias', 'Consumos\NotasController@categorias')->name('categorias');
-Route::get('/consumos/productos/{categoria}', 'Consumos\NotasController@productos')->name('productosByCategoria');
+Route::get('/consumos/productos/{parametro}', 'Consumos\NotasController@productos')->name('productos');
+Route::get('/consumos/precios/{id_producto}', 'Consumos\NotasController@precios')->name('precios');

@@ -25,20 +25,25 @@ class NotasController extends Controller
 
     public function index()
     {
-        $cats = CategoriaProducto::all();
-        $prods = Producto::where("categoria_id", 2)->get()->sortBy("tipo_id");
-    	return view("consumos.notas",["categorias"=>$cats, "productos"=>$prods]);
+    	return view("consumos.notas");
     }
 
-    public function productos( $categoria )
+    public function productos( $parametro )
     {
-        $productos = Producto::where("categoria_id", $categoria)
+        // Si el parametro es numerico, busca los productos por categoria,
+        // si es una cadena, busca por nombre con un LIKE % $parametro %
+        $productos = (is_numeric( $parametro )?
+            Producto::where("categoria_id", $parametro) : 
+            Producto::where("nombre", "LIKE", "%".$parametro."%") )
             ->get()
+            ->sortBy("tipo.nombre")
             ->groupBy("tipo.nombre")
             ->each(function($item, $key){
-                /* Para minificar el response */
                 $item->transform(function($o, $i){
-                    return $o->only(["id", "nombre", "nombre_imagen"]);
+                    return $o->only(
+                        // Para minificar el response
+                        ["id", "nombre", "nombre_imagen"]
+                    );
                 });
             });
         
@@ -47,5 +52,52 @@ class NotasController extends Controller
 
     public function categorias(){
         return CategoriaProducto::all()->toJson();
+    }
+
+    public function precios( $id_producto )
+    {
+        /*$precios = PrecioProducto::where('producto_id', $id_producto)
+        ->get()
+        ->keyBy('modo_servicio.descripcion')
+        ->transform(function($item, $key){
+            return $item->only(
+                // Para minificar el response
+                ["id", "precio"]
+            );
+        
+        });*/
+
+        $precios = PrecioProducto::where('producto_id', $id_producto)
+        ->get()
+        ->transform(function($item, $key){
+            $obj = collect($item->only(
+                ["id", "precio", "modo_servicio_id"]
+            ));
+            if( $item->modo_servicio->id == 8 )
+            {
+                if($item->producto->tipo_id == 19)
+                {
+                    $obj->put('modo_servicio','Taza');
+                }
+                else
+                {
+                    if($item->producto->categoria_id==4 && !in_array($item->producto->tipo_id, [15,17]))
+                    {
+                        $obj->put('modo_servicio', 'Copa');
+                    }
+                    else
+                    {
+                        $obj->put('modo_servicio','Vaso');
+                    }
+                }
+            }
+            else
+            {
+                $obj->put('modo_servicio',$item->modo_servicio->descripcion);
+            }
+            return $obj;
+        })->keyBy("id");
+        
+        return $precios->toJson();
     }
 }

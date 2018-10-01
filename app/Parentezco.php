@@ -12,6 +12,6 @@ class Parentezco extends Model
 
     public function datos_personas()
     {
-    	return $this->hasMany('App\DatosPersonales')
+    	return $this->hasMany('App\DatosPersonales');
     }
 }

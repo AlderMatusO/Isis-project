@@ -1,28 +1,35 @@
 
-.mm-element {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    font-family: "Open-sans"
-}
-.mm-element a {
+.simple-link, .simple-link * {
 	color: #212529;
 }
 
-.mm-element a:visited {
+.simple-link:visited, .simple-link:visited * {
 	color: #212529;
 }
 
-.mm-element a:hover {
+.simple-link:hover, .simple-link:hover * {
 	text-decoration: none;
 	color: #b3b3b3;
 }
 
-.mm-element a:hover h5 {
+.simple-link:hover h5 {
 	text-decoration: underline;
 }
 
-.mm-e-title {
-	margin-top: 1rem;
+.product-card {
+	opacity: 1;
+}
+
+.product-card .card-img-overlay{
+	opacity: 0;
+}
+
+.product-card:hover {
+	opacity: 0.2;
+}
+
+.product-card:hover .card-img-overlay{
+	opacity: 0.8;
 }
 
 .product-header {

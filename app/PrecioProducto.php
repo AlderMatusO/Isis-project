@@ -25,4 +25,6 @@ class PrecioProducto extends Model
     {
         return $this->belongsToMany('App\Nota', 'notas_productos');
     }
+
+    
 }

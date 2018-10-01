@@ -10,8 +10,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/jquery-3.3.1.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @yield('scripts')
 
     <!-- Fonts-->
     <link href="{{ asset('fonts/Lato-Regular.ttf') }}" rel="stylesheet" type="text/css">
