@@ -3,7 +3,21 @@
         <div class="card">
             <div class="card-header">
                 <h5>Productos</h5>
-                <button :class="(isProdSelected? 'visible' : 'invisible')"><i class="fas fa-trash-alt"/></button>
+                <button
+                type="button"
+                :class="['btn', 'btn-secondary', (isProdSelected? 'visible' : 'invisible')]"
+                @click="deleteSelection"
+                data-toggle="tooltip"
+                title="Eliminar Producto">
+                    <i class="fas fa-trash-alt"/>
+                </button>
+                <button
+                type="button"
+                :class="['btn', 'btn-secondary', (listaProductos.length >= 1? 'visible' : 'invisible')]"
+                data-toggle="tooltip"
+                title="Cerrar Cuenta">
+                    <i class="fas fa-bell-slash"/>
+                </button>
             </div>
             <div class="card-body p-0">
                 <ul id="products-list" class="list-group list-group-flush">
@@ -92,9 +106,12 @@
 <script>
     import { productBus } from './../../consumos.js'
     export default {
-        data() {
+        data()
+        {
             return {
-                productoActual: {
+                ticketId: 0,
+                productoActual:
+                {
                     id: 0,
                     nombre: "",
                     precios: {},
@@ -118,65 +135,79 @@
             this.$modalAdd.modal({show:false});
             this.$modalAdd.on('hidden.bs.modal', this.modalAddHidden);
         },
-        methods: {
+        methods:
+        {
             modalAddHidden: function()
             {
                 this.productoActual.id = 0;
             },
+            findPrecioPorKilo: function(listaPreciosPorKg, idsPreciosEnLista)
+            {
+                //Buscamos alguno de los 3 precios (por kilo) dentro de la lista de productos
+                //Todos los modos de servicio que tiene el producto
+                var precios_found = -1;
+
+                Object.keys(this.productoActual.precios).forEach( (key) => {
+                    key = parseInt(key);
+                    if( this.productoActual.precios[key].modo_servicio_id == 1 /*1 kg*/ ||
+                        this.productoActual.precios[key].modo_servicio_id == 2 /*1/2 kg*/||
+                        this.productoActual.precios[key].modo_servicio_id == 3) /*1/4 kg*/
+                    {
+                        listaPreciosPorKg[this.productoActual.precios[key].modo_servicio_id] = {"id": key, "precio": this.productoActual.precios[key].precio};
+
+                        if(idsPreciosEnLista.indexOf(key) >= 0)
+                        {
+                            precios_found = idsPreciosEnLista.indexOf(key);
+                        }
+                    }
+                });
+
+                return precios_found;
+            },
             addProducto: function()
-            {                
+            {
                 var precioActual = this.productoActual.precios[this.productoActual.precioSeleccionado];
                 
                 var ids = this.listaProductos.map(function(item){ return item.id; });
-                var id = -1;
+                var precios_por_kg = {};
+                var isForKg = precioActual.modo_servicio_id === 1;
+                var id = (isForKg?
+                    this.findPrecioPorKilo(precios_por_kg, ids) :
+                    ids.indexOf(precioActual.id));
                 
-                if( precioActual.modo_servicio_id === 1) //Fué por kilogramo
+                //Si el producto ya había sido agregado en la lista
+                if( id >= 0 )
                 {
+                    //solo actualiza la cantidad
+                    this.listaProductos[id].cantidad += this.productoActual.cantidad;
                     
-                    var precio_found = -1;
-                    var modo_servicio_found = -1;
-                    var precios_por_kg = {};
-
-                    //Todos los modos de servicio que tiene el producto
-                    Object.keys(this.productoActual.precios).forEach( (key) => {
-                        key = parseInt(key);
-                        if( this.productoActual.precios[key].modo_servicio_id == 1 /*1 kg*/ ||
-                            this.productoActual.precios[key].modo_servicio_id == 2 /*1/2 kg*/||
-                            this.productoActual.precios[key].modo_servicio_id == 3) /*1/4 kg*/
-                        {
-                            precios_por_kg[this.productoActual.precios[key].modo_servicio_id] = {"id": key, "precio": this.productoActual.precios[key].precio};
-
-                            if(ids.indexOf(key) >= 0)
-                            {
-                                precio_found = ids.indexOf(key);
-                            }
-                        }
-                    });
-
-                    if( precio_found >= 0)
+                    //Sin embargo si es por kilo, además debe actualizar el precio si sobrepasa los límites
+                    if(isForKg)
                     {
-                        
-                        this.listaProductos[precio_found].cantidad += this.productoActual.cantidad;
-                        if(this.listaProductos[precio_found].cantidad > 0.5)
+                        if(this.listaProductos[id].cantidad > 0.5)
                         {
-                            this.listaProductos[precio_found].id = precioActual.id;
-                            this.listaProductos[precio_found].precio = precioActual.precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 1;
+                            this.listaProductos[id].id = precioActual.id;
+                            this.listaProductos[id].precio = precioActual.precio;
+                            this.listaProductos[id].modo_servicio_id = 1;
                         }
-                        if(this.listaProductos[precio_found].cantidad > 0.25 && this.listaProductos[precio_found].cantidad <= 0.5)
+                        if(this.listaProductos[id].cantidad > 0.25 && this.listaProductos[id].cantidad <= 0.5)
                         {
-                            this.listaProductos[precio_found].id = precios_por_kg[2].id;
-                            this.listaProductos[precio_found].precio = precios_por_kg[2].precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 2;
+                            this.listaProductos[id].id = precios_por_kg[2].id;
+                            this.listaProductos[id].precio = precios_por_kg[2].precio;
+                            this.listaProductos[id].modo_servicio_id = 2;
                         }
-                        if(this.listaProductos[precio_found].cantidad <= 0.25)
+                        if(this.listaProductos[id].cantidad <= 0.25)
                         {
-                            this.listaProductos[precio_found].id = precios_por_kg[3].id;
-                            this.listaProductos[precio_found].precio = precios_por_kg[3].precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 3;
+                            this.listaProductos[id].id = precios_por_kg[3].id;
+                            this.listaProductos[id].precio = precios_por_kg[3].precio;
+                            this.listaProductos[id].modo_servicio_id = 3;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    //Para despachar por kg se actualizan los precios dependiendo la cantidad
+                    if( isForKg )
                     {
                         if(this.productoActual.cantidad >= 0.5 && this.productoActual.cantidad < 1.0)
                         {
@@ -190,73 +221,51 @@
                             precioActual.precio = precios_por_kg[3].precio;
                             precioActual.modo_servicio_id = 3;
                         }
+                    }
+                    //Se agrega el nuevo producto en la lista
+                    this.listaProductos.push(
+                    {
+                        "id": precioActual.id,
+                        "nombre":this.productoActual.nombre,
+                        "cantidad":this.productoActual.cantidad,
+                        "modo_servicio_id":precioActual.modo_servicio_id,
+                        "modo_servicio":precioActual.modo_servicio,                    
+                        "precio":precioActual.precio,
+                        "selected":false
+                    });
+                }
 
-                        this.listaProductos.push(
-                        {
-                            "id": precioActual.id,
-                            "nombre":this.productoActual.nombre,
-                            "cantidad":this.productoActual.cantidad,
-                            "modo_servicio_id":precioActual.modo_servicio_id,
-                            "modo_servicio":precioActual.modo_servicio,                    
-                            "precio":precioActual.precio,
-                            "selected":false
-                        });
-                    }
-                }
-                else
-                {
-                    if((id = ids.indexOf(precioActual.id)) >= 0)
-                    {
-                        this.listaProductos[id].cantidad += this.productoActual.cantidad;
-                    }
-                    else
-                    {
-                        this.listaProductos.push(
-                        {
-                            "id": precioActual.id,
-                            "nombre":this.productoActual.nombre,
-                            "cantidad":this.productoActual.cantidad,
-                            "modo_servicio_id":precioActual.modo_servicio_id,
-                            "modo_servicio":precioActual.modo_servicio,                    
-                            "precio":precioActual.precio,
-                            "selected":false
-                        });
-                    }
-                }
                 this.selection(this.listaProductos.length - 1);
+                var id = this.ticketId;
+                productBus.$emit('listChanged', {'id': id, 'list': this.listaProductos});
 
                 this.$modalAdd.modal('hide');
             },
-            precioProducto( prodId )
+            precioProducto: function( prodId )
             {
                 var ids = this.listaProductos.map(function(item){ return item.id; });
                 var id = ids.indexOf(prodId);
                 if( id >= 0 )
                 {
                     var divisor = 1.0;
-                    if([2,3].includes(this.listaProductos[id].modo_servicio_id))
-                    {
-                        switch(this.listaProductos[id].modo_servicio_id){
-                            case 2:
-                                divisor = 0.50;
-                            break;
-                            case 3:
-                                divisor = 0.25;
-                            break;
-                        }
-                    }
+                    if(this.listaProductos[id].modo_servicio_id == 2)
+                        divisor = 0.50;
+                    if(this.listaProductos[id].modo_servicio_id == 3)
+                        divisor = 0.25;
                     return (parseFloat(this.listaProductos[id].precio) * parseFloat(this.listaProductos[id].cantidad/divisor)).toFixed(2);
                 }
                 return 0.00;
             },
-            validaCantidad( evt )
+            validaCantidad: function( evt )
             {
                 var cantidadAceptaFloat = this.productoActual.precioSeleccionado>0? 
                     (this.productoActual.precios[this.productoActual.precioSeleccionado].modo_servicio_id === 1)
                     : false;
                 evt = (evt) ? evt : window.event;
                 var charCode = (evt.which) ? evt.which : evt.keyCode;
-                if(!cantidadAceptaFloat && charCode == 46)
+                var val = this.productoActual.cantidad.toString();
+                var decimals = val.length - (val.indexOf(".")==-1? 0 : val.indexOf(".") + 1);
+                if((!cantidadAceptaFloat && charCode == 46) || (cantidadAceptaFloat && ((val.indexOf(".") >= 0 && charCode == 46)||(decimals >= 3)) ))
                 {
                     evt.preventDefault();
                 }                    
@@ -265,22 +274,23 @@
                     return true;
                 }
             },
-            getDescripcion( productoAgregado ){
+            getDescripcion: function( productoAgregado )
+            {
                 var retVal = "";
                 if([1,2,3].includes(productoAgregado.modo_servicio_id))
                 {
-                    retVal += (productoAgregado.cantidad < 1.0? (productoAgregado.cantidad*1000).toString() + " g." : productoAgregado.cantidad + "Kg.")+
+                    retVal += (productoAgregado.cantidad < 1.0? (productoAgregado.cantidad*1000).toFixed(2) + " g." : productoAgregado.cantidad.toFixed(2) + "Kg.")+
                                 " - a $" + parseFloat(productoAgregado.precio).toFixed(2) + " ";
                     switch(productoAgregado.modo_servicio_id)
                     {
                         case 1:
-                            retVal += "el kilo."
+                            retVal += "el kilo.";
                         break;
                         case 2:
-                            retVal += "el medio."
+                            retVal += "el medio.";
                         break;
                         case 3:
-                            retVal += "el cuarto."
+                            retVal += "el cuarto.";
                         break;
                     }
                 }
@@ -306,7 +316,7 @@
                 }
                 return retVal;
             },
-            selection( idProd )
+            selection: function( idProd )
             {
                 if(this.listaProductos[idProd].selected)
                 {
@@ -323,6 +333,11 @@
                     this.listaProductos[idProd].selected = true;
                 }
                 
+            },
+            deleteSelection: function()
+            {
+                var id = this.listaProductos.indexOf(this.listaProductos.find(x=>(x.selected)));
+                this.listaProductos.splice(id, 1);
             }
         },
         watch: {
@@ -419,7 +434,7 @@
                     ).toFixed(2);
                 else return (0.0).toFixed(2);
             },
-            isProdSelected()
+            isProdSelected: function()
             {
                 return this.listaProductos.length>0 && this.listaProductos.find(
                     function(element)

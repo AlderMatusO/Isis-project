@@ -15,9 +15,7 @@
 						'text-capitalize']"
 						href="javascript:void(0)"
 						@click="categoriaSeleccionada.id = categoria.id">
-
 							{{ categoria.descripcion }}
-
 						</a>
 
 					</div>
@@ -81,7 +79,8 @@
 
 	export default {
 		
-		data() {
+		data()
+		{
 			return {
 				categoriaSeleccionada : {
 					id: 0,
@@ -92,10 +91,12 @@
 				menu : {}
 			}
 		},
-		created() {
+		created()
+		{
 			this.getProductos = debounce( this.getProductos, 300);
 		},
-		mounted() {
+		mounted()
+		{
 			axios
 			.get('consumos/categorias')
 			.then((response) => {
@@ -105,7 +106,8 @@
 			this.categoriaSeleccionada.id = 1;
 
 		},
-		methods: {
+		methods:
+		{
 			getProductos()
 			{
 				if(this.categoriaSeleccionada.id in this.menu)
@@ -131,7 +133,8 @@
 				productBus.$emit('productoSeleccionado', producto);
 			}
 		},
-		watch: {
+		watch:
+		{
 			'categoriaSeleccionada.id' : function()
 			{
 				this.getProductos()

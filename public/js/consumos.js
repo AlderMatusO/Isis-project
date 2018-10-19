@@ -65,7 +65,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 13:
+/***/ 2:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "productBus", function() { return productBus; });
+
+var productBus = new Vue();
+
+var notas = new Vue({
+    el: '#consumos',
+    components: {
+        'consumos-component': __webpack_require__(42)
+    }
+});
+
+/***/ }),
+
+/***/ 4:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -175,29 +193,10 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "productBus", function() { return productBus; });
-
-var productBus = new Vue();
-
-var app = new Vue({
-    el: '#consumos',
-    components: {
-        'menu-component': __webpack_require__(42),
-        'ticket-component': __webpack_require__(46)
-    }
-});
-
-/***/ }),
-
 /***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(2);
 
 
 /***/ }),
@@ -206,11 +205,11 @@ module.exports = __webpack_require__(3);
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(13)
+var normalizeComponent = __webpack_require__(4)
 /* script */
 var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(45)
+var __vue_template__ = __webpack_require__(51)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -227,7 +226,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/consumos/MenuComponent.vue"
+Component.options.__file = "resources/assets/js/components/consumos/ConsumosComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -236,9 +235,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58a2149a", Component.options)
+    hotAPI.createRecord("data-v-4d1dfe25", Component.options)
   } else {
-    hotAPI.reload("data-v-58a2149a", Component.options)
+    hotAPI.reload("data-v-4d1dfe25", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -255,49 +254,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__consumos_js__ = __webpack_require__(3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__consumos_js__ = __webpack_require__(2);
 //
 //
 //
@@ -334,347 +291,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var debounce = __webpack_require__(44);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			categoriaSeleccionada: {
-				id: 0,
-				obj: {}
-			},
-			categorias: [],
-			busqueda: "",
-			menu: {}
-		};
-	},
-	created: function created() {
-		this.getProductos = debounce(this.getProductos, 300);
-	},
-	mounted: function mounted() {
-		var _this = this;
+    components: {
+        'ticket-component': __webpack_require__(44),
+        'menu-component': __webpack_require__(47)
+    },
+    data: function data() {
+        return {
+            tickets: [{
+                status: '',
+                listaProductos: []
+            }]
+        };
+    },
+    mounted: function mounted() {},
+    created: function created() {
+        var _this = this;
 
-		axios.get('consumos/categorias').then(function (response) {
-			_this.categorias = response.data;
-		});
+        __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('listChanged', function (obj) {
+            _this.tickets[obj.id].listaProductos = obj.list;
+        });
+    },
 
-		this.categoriaSeleccionada.id = 1;
-	},
-
-	methods: {
-		getProductos: function getProductos() {
-			var _this2 = this;
-
-			if (this.categoriaSeleccionada.id in this.menu) {
-				this.categoriaSeleccionada.obj = this.menu[this.categoriaSeleccionada.id];
-			} else {
-				var parameter = this.categoriaSeleccionada.id > 0 ? this.categoriaSeleccionada.id : this.busqueda;
-				axios.get('consumos/productos/' + parameter).then(function (response) {
-					_this2.categoriaSeleccionada.obj = response.data;
-					// solo guardo en caché cuando cat > 0 y la categoria aun no esté en el menu
-					if (_this2.categoriaSeleccionada.id > 0 && !(_this2.categoriaSeleccionada.id in _this2.menu)) _this2.menu[_this2.categoriaSeleccionada['id']] = response.data;
-				});
-			}
-		},
-		productoSeleccionado: function productoSeleccionado(producto) {
-			__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('productoSeleccionado', producto);
-		}
-	},
-	watch: {
-		'categoriaSeleccionada.id': function categoriaSeleccionadaId() {
-			this.getProductos();
-		},
-		'busqueda': function busqueda(newVal, oldVal) {
-			/*
-    * Este método muta el valor del id de la categoria; el valor original es pasado a
-    * un numero negativo cuando se llena el campo de busqueda y devuelto a positivo
-    * cuando se borre. A la magnitud original en negativo se le va restando el numero
-    * de caracteres de la busqueda mientras vaya en aumento y sumando cuando va decrementando
-    * a cuentas de que al final regrese al valor original.
-    */
-
-			var deltaVal = oldVal.length - newVal.length;
-			var in_limits = oldVal.length == 0 || newVal.length == 0;
-			if (in_limits) {
-				this.categoriaSeleccionada.id = oldVal.length == 0 ? -this.categoriaSeleccionada.id + deltaVal : -(this.categoriaSeleccionada.id + deltaVal);
-			} else {
-				this.categoriaSeleccionada.id += deltaVal;
-			}
-		}
-	}
+    methods: {}
 });
 
 /***/ }),
 
 /***/ 44:
-/***/ (function(module, exports) {
-
-/**
- * Returns a function, that, as long as it continues to be invoked, will not
- * be triggered. The function will be called after it stops being called for
- * N milliseconds. If `immediate` is passed, trigger the function on the
- * leading edge, instead of the trailing. The function also has a property 'clear' 
- * that is a function which will clear the timer to prevent previously scheduled executions. 
- *
- * @source underscore.js
- * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
- * @param {Function} function to wrap
- * @param {Number} timeout in ms (`100`)
- * @param {Boolean} whether to execute at the beginning (`false`)
- * @api public
- */
-function debounce(func, wait, immediate){
-  var timeout, args, context, timestamp, result;
-  if (null == wait) wait = 100;
-
-  function later() {
-    var last = Date.now() - timestamp;
-
-    if (last < wait && last >= 0) {
-      timeout = setTimeout(later, wait - last);
-    } else {
-      timeout = null;
-      if (!immediate) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-    }
-  };
-
-  var debounced = function(){
-    context = this;
-    args = arguments;
-    timestamp = Date.now();
-    var callNow = immediate && !timeout;
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) {
-      result = func.apply(context, args);
-      context = args = null;
-    }
-
-    return result;
-  };
-
-  debounced.clear = function() {
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
-  };
-  
-  debounced.flush = function() {
-    if (timeout) {
-      result = func.apply(context, args);
-      context = args = null;
-      
-      clearTimeout(timeout);
-      timeout = null;
-    }
-  };
-
-  return debounced;
-};
-
-// Adds compatibility for ES modules
-debounce.debounce = debounce;
-
-module.exports = debounce;
-
-
-/***/ }),
-
-/***/ 45:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-sm-8" }, [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("h5", [_vm._v("Menú")]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "nav nav-pills", attrs: { role: "tablist" } },
-          [
-            _vm._l(_vm.categorias, function(categoria) {
-              return _c("div", { key: categoria.id, staticClass: "nav-item" }, [
-                _c(
-                  "a",
-                  {
-                    class: [
-                      categoria.id == _vm.categoriaSeleccionada.id
-                        ? "active"
-                        : "",
-                      "nav-link",
-                      "text-capitalize"
-                    ],
-                    attrs: { href: "javascript:void(0)" },
-                    on: {
-                      click: function($event) {
-                        _vm.categoriaSeleccionada.id = categoria.id
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n\n\t\t\t\t\t\t" +
-                        _vm._s(categoria.descripcion) +
-                        "\n\n\t\t\t\t\t"
-                    )
-                  ]
-                )
-              ])
-            }),
-            _vm._v(" "),
-            _c("form", { staticClass: "form-inline" }, [
-              _c("i", {
-                staticClass: "fas fa-search",
-                attrs: { "aria-hidden": "true" }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.busqueda,
-                    expression: "busqueda"
-                  }
-                ],
-                staticClass: "form-control ml-3 mw-100",
-                attrs: {
-                  type: "text",
-                  placeholder: "Buscar Producto",
-                  "aria-label": "search"
-                },
-                domProps: { value: _vm.busqueda },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.busqueda = $event.target.value
-                  }
-                }
-              })
-            ])
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-body" },
-        _vm._l(_vm.categoriaSeleccionada["obj"], function(items, index) {
-          return _c("div", { key: index, staticClass: "container" }, [
-            _c("div", { staticClass: "row font-weight-bold" }, [
-              _c("h5", [
-                _c("i", { staticClass: "fas fa-angle-right" }, [
-                  _vm._v(" " + _vm._s(index) + " ")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(items, function(producto) {
-                return _c(
-                  "div",
-                  { key: producto.id, staticClass: "col-md-3" },
-                  [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "product-card card mb-3",
-                        attrs: { id: "product-" + producto.id }
-                      },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "simple-link",
-                            attrs: { href: "javascript:void(0)" },
-                            on: {
-                              click: function($event) {
-                                _vm.productoSeleccionado(producto)
-                              }
-                            }
-                          },
-                          [
-                            _c("img", {
-                              staticClass: "card-img-top",
-                              attrs: { src: producto.nombre_imagen }
-                            }),
-                            _vm._v(" "),
-                            _vm._m(0, true),
-                            _vm._v(" "),
-                            _c(
-                              "h6",
-                              {
-                                staticClass:
-                                  "card-title text-center text-capitalize"
-                              },
-                              [
-                                _c("b", [
-                                  _vm._v(" " + _vm._s(producto.nombre) + " ")
-                                ])
-                              ]
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              })
-            )
-          ])
-        })
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "card-img-overlay bg-dark text-white text-center align-middle"
-      },
-      [_c("i", { staticClass: "fas fa-plus-circle fa-3x" })]
-    )
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-58a2149a", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(13)
+var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(47)
+var __vue_script__ = __webpack_require__(45)
 /* template */
-var __vue_template__ = __webpack_require__(48)
+var __vue_template__ = __webpack_require__(46)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -714,12 +368,26 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 47:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__consumos_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__consumos_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -816,6 +484,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            ticketId: 0,
             productoActual: {
                 id: 0,
                 nombre: "",
@@ -845,92 +514,89 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         modalAddHidden: function modalAddHidden() {
             this.productoActual.id = 0;
         },
-        addProducto: function addProducto() {
+        findPrecioPorKilo: function findPrecioPorKilo(listaPreciosPorKg, idsPreciosEnLista) {
             var _this2 = this;
 
+            //Buscamos alguno de los 3 precios (por kilo) dentro de la lista de productos
+            //Todos los modos de servicio que tiene el producto
+            var precios_found = -1;
+
+            Object.keys(this.productoActual.precios).forEach(function (key) {
+                key = parseInt(key);
+                if (_this2.productoActual.precios[key].modo_servicio_id == 1 /*1 kg*/ || _this2.productoActual.precios[key].modo_servicio_id == 2 /*1/2 kg*/ || _this2.productoActual.precios[key].modo_servicio_id == 3) /*1/4 kg*/
+                    {
+                        listaPreciosPorKg[_this2.productoActual.precios[key].modo_servicio_id] = { "id": key, "precio": _this2.productoActual.precios[key].precio };
+
+                        if (idsPreciosEnLista.indexOf(key) >= 0) {
+                            precios_found = idsPreciosEnLista.indexOf(key);
+                        }
+                    }
+            });
+
+            return precios_found;
+        },
+        addProducto: function addProducto() {
             var precioActual = this.productoActual.precios[this.productoActual.precioSeleccionado];
 
             var ids = this.listaProductos.map(function (item) {
                 return item.id;
             });
-            var id = -1;
+            var precios_por_kg = {};
+            var isForKg = precioActual.modo_servicio_id === 1;
+            var id = isForKg ? this.findPrecioPorKilo(precios_por_kg, ids) : ids.indexOf(precioActual.id);
 
-            if (precioActual.modo_servicio_id === 1) //Fué por kilogramo
-                {
+            //Si el producto ya había sido agregado en la lista
+            if (id >= 0) {
+                //solo actualiza la cantidad
+                this.listaProductos[id].cantidad += this.productoActual.cantidad;
 
-                    var precio_found = -1;
-                    var modo_servicio_found = -1;
-                    var precios_por_kg = {};
-
-                    //Todos los modos de servicio que tiene el producto
-                    Object.keys(this.productoActual.precios).forEach(function (key) {
-                        key = parseInt(key);
-                        if (_this2.productoActual.precios[key].modo_servicio_id == 1 /*1 kg*/ || _this2.productoActual.precios[key].modo_servicio_id == 2 /*1/2 kg*/ || _this2.productoActual.precios[key].modo_servicio_id == 3) /*1/4 kg*/
-                            {
-                                precios_por_kg[_this2.productoActual.precios[key].modo_servicio_id] = { "id": key, "precio": _this2.productoActual.precios[key].precio };
-
-                                if (ids.indexOf(key) >= 0) {
-                                    precio_found = ids.indexOf(key);
-                                }
-                            }
-                    });
-
-                    if (precio_found >= 0) {
-
-                        this.listaProductos[precio_found].cantidad += this.productoActual.cantidad;
-                        if (this.listaProductos[precio_found].cantidad > 0.5) {
-                            this.listaProductos[precio_found].id = precioActual.id;
-                            this.listaProductos[precio_found].precio = precioActual.precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 1;
-                        }
-                        if (this.listaProductos[precio_found].cantidad > 0.25 && this.listaProductos[precio_found].cantidad <= 0.5) {
-                            this.listaProductos[precio_found].id = precios_por_kg[2].id;
-                            this.listaProductos[precio_found].precio = precios_por_kg[2].precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 2;
-                        }
-                        if (this.listaProductos[precio_found].cantidad <= 0.25) {
-                            this.listaProductos[precio_found].id = precios_por_kg[3].id;
-                            this.listaProductos[precio_found].precio = precios_por_kg[3].precio;
-                            this.listaProductos[precio_found].modo_servicio_id = 3;
-                        }
-                    } else {
-                        if (this.productoActual.cantidad >= 0.5 && this.productoActual.cantidad < 1.0) {
-                            precioActual.id = precios_por_kg[2].id;
-                            precioActual.precio = precios_por_kg[2].precio;
-                            precioActual.modo_servicio_id = 2;
-                        }
-                        if (this.productoActual.cantidad < 0.5) {
-                            precioActual.id = precios_por_kg[3].id;
-                            precioActual.precio = precios_por_kg[3].precio;
-                            precioActual.modo_servicio_id = 3;
-                        }
-
-                        this.listaProductos.push({
-                            "id": precioActual.id,
-                            "nombre": this.productoActual.nombre,
-                            "cantidad": this.productoActual.cantidad,
-                            "modo_servicio_id": precioActual.modo_servicio_id,
-                            "modo_servicio": precioActual.modo_servicio,
-                            "precio": precioActual.precio,
-                            "selected": false
-                        });
+                //Sin embargo si es por kilo, además debe actualizar el precio si sobrepasa los límites
+                if (isForKg) {
+                    if (this.listaProductos[id].cantidad > 0.5) {
+                        this.listaProductos[id].id = precioActual.id;
+                        this.listaProductos[id].precio = precioActual.precio;
+                        this.listaProductos[id].modo_servicio_id = 1;
                     }
-                } else {
-                if ((id = ids.indexOf(precioActual.id)) >= 0) {
-                    this.listaProductos[id].cantidad += this.productoActual.cantidad;
-                } else {
-                    this.listaProductos.push({
-                        "id": precioActual.id,
-                        "nombre": this.productoActual.nombre,
-                        "cantidad": this.productoActual.cantidad,
-                        "modo_servicio_id": precioActual.modo_servicio_id,
-                        "modo_servicio": precioActual.modo_servicio,
-                        "precio": precioActual.precio,
-                        "selected": false
-                    });
+                    if (this.listaProductos[id].cantidad > 0.25 && this.listaProductos[id].cantidad <= 0.5) {
+                        this.listaProductos[id].id = precios_por_kg[2].id;
+                        this.listaProductos[id].precio = precios_por_kg[2].precio;
+                        this.listaProductos[id].modo_servicio_id = 2;
+                    }
+                    if (this.listaProductos[id].cantidad <= 0.25) {
+                        this.listaProductos[id].id = precios_por_kg[3].id;
+                        this.listaProductos[id].precio = precios_por_kg[3].precio;
+                        this.listaProductos[id].modo_servicio_id = 3;
+                    }
                 }
+            } else {
+                //Para despachar por kg se actualizan los precios dependiendo la cantidad
+                if (isForKg) {
+                    if (this.productoActual.cantidad >= 0.5 && this.productoActual.cantidad < 1.0) {
+                        precioActual.id = precios_por_kg[2].id;
+                        precioActual.precio = precios_por_kg[2].precio;
+                        precioActual.modo_servicio_id = 2;
+                    }
+                    if (this.productoActual.cantidad < 0.5) {
+                        precioActual.id = precios_por_kg[3].id;
+                        precioActual.precio = precios_por_kg[3].precio;
+                        precioActual.modo_servicio_id = 3;
+                    }
+                }
+                //Se agrega el nuevo producto en la lista
+                this.listaProductos.push({
+                    "id": precioActual.id,
+                    "nombre": this.productoActual.nombre,
+                    "cantidad": this.productoActual.cantidad,
+                    "modo_servicio_id": precioActual.modo_servicio_id,
+                    "modo_servicio": precioActual.modo_servicio,
+                    "precio": precioActual.precio,
+                    "selected": false
+                });
             }
+
             this.selection(this.listaProductos.length - 1);
+            var id = this.ticketId;
+            __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('listChanged', { 'id': id, 'list': this.listaProductos });
 
             this.$modalAdd.modal('hide');
         },
@@ -959,7 +625,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var cantidadAceptaFloat = this.productoActual.precioSeleccionado > 0 ? this.productoActual.precios[this.productoActual.precioSeleccionado].modo_servicio_id === 1 : false;
             evt = evt ? evt : window.event;
             var charCode = evt.which ? evt.which : evt.keyCode;
-            if (!cantidadAceptaFloat && charCode == 46) {
+            var val = this.productoActual.cantidad.toString();
+            var decimals = val.length - (val.indexOf(".") == -1 ? 0 : val.indexOf(".") + 1);
+            if (!cantidadAceptaFloat && charCode == 46 || cantidadAceptaFloat && (val.indexOf(".") >= 0 && charCode == 46 || decimals >= 3)) {
                 evt.preventDefault();
             } else {
                 return true;
@@ -968,7 +636,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getDescripcion: function getDescripcion(productoAgregado) {
             var retVal = "";
             if ([1, 2, 3].includes(productoAgregado.modo_servicio_id)) {
-                retVal += (productoAgregado.cantidad < 1.0 ? (productoAgregado.cantidad * 1000).toString() + " g." : productoAgregado.cantidad + "Kg.") + " - a $" + parseFloat(productoAgregado.precio).toFixed(2) + " ";
+                retVal += (productoAgregado.cantidad < 1.0 ? (productoAgregado.cantidad * 1000).toFixed(2) + " g." : productoAgregado.cantidad.toFixed(2) + "Kg.") + " - a $" + parseFloat(productoAgregado.precio).toFixed(2) + " ";
                 switch (productoAgregado.modo_servicio_id) {
                     case 1:
                         retVal += "el kilo.";
@@ -1012,6 +680,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 this.listaProductos[idProd].selected = true;
             }
+        },
+        deleteSelection: function deleteSelection() {
+            var id = this.listaProductos.indexOf(this.listaProductos.find(function (x) {
+                return x.selected;
+            }));
+            this.listaProductos.splice(id, 1);
         }
     },
     watch: {
@@ -1089,7 +763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 48:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1101,9 +775,40 @@ var render = function() {
       _c("div", { staticClass: "card-header" }, [
         _c("h5", [_vm._v("Productos")]),
         _vm._v(" "),
-        _c("button", { class: _vm.isProdSelected ? "visible" : "invisible" }, [
-          _c("i", { staticClass: "fas fa-trash-alt" })
-        ])
+        _c(
+          "button",
+          {
+            class: [
+              "btn",
+              "btn-secondary",
+              _vm.isProdSelected ? "visible" : "invisible"
+            ],
+            attrs: {
+              type: "button",
+              "data-toggle": "tooltip",
+              title: "Eliminar Producto"
+            },
+            on: { click: _vm.deleteSelection }
+          },
+          [_c("i", { staticClass: "fas fa-trash-alt" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            class: [
+              "btn",
+              "btn-secondary",
+              _vm.listaProductos.length >= 1 ? "visible" : "invisible"
+            ],
+            attrs: {
+              type: "button",
+              "data-toggle": "tooltip",
+              title: "Cerrar Cuenta"
+            }
+          },
+          [_c("i", { staticClass: "fas fa-bell-slash" })]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body p-0" }, [
@@ -1378,6 +1083,540 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1af405e6", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(48)
+/* template */
+var __vue_template__ = __webpack_require__(50)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/consumos/MenuComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-58a2149a", Component.options)
+  } else {
+    hotAPI.reload("data-v-58a2149a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 48:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__consumos_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var debounce = __webpack_require__(49);
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			categoriaSeleccionada: {
+				id: 0,
+				obj: {}
+			},
+			categorias: [],
+			busqueda: "",
+			menu: {}
+		};
+	},
+	created: function created() {
+		this.getProductos = debounce(this.getProductos, 300);
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		axios.get('consumos/categorias').then(function (response) {
+			_this.categorias = response.data;
+		});
+
+		this.categoriaSeleccionada.id = 1;
+	},
+
+	methods: {
+		getProductos: function getProductos() {
+			var _this2 = this;
+
+			if (this.categoriaSeleccionada.id in this.menu) {
+				this.categoriaSeleccionada.obj = this.menu[this.categoriaSeleccionada.id];
+			} else {
+				var parameter = this.categoriaSeleccionada.id > 0 ? this.categoriaSeleccionada.id : this.busqueda;
+				axios.get('consumos/productos/' + parameter).then(function (response) {
+					_this2.categoriaSeleccionada.obj = response.data;
+					// solo guardo en caché cuando cat > 0 y la categoria aun no esté en el menu
+					if (_this2.categoriaSeleccionada.id > 0 && !(_this2.categoriaSeleccionada.id in _this2.menu)) _this2.menu[_this2.categoriaSeleccionada['id']] = response.data;
+				});
+			}
+		},
+		productoSeleccionado: function productoSeleccionado(producto) {
+			__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('productoSeleccionado', producto);
+		}
+	},
+	watch: {
+		'categoriaSeleccionada.id': function categoriaSeleccionadaId() {
+			this.getProductos();
+		},
+		'busqueda': function busqueda(newVal, oldVal) {
+			/*
+    * Este método muta el valor del id de la categoria; el valor original es pasado a
+    * un numero negativo cuando se llena el campo de busqueda y devuelto a positivo
+    * cuando se borre. A la magnitud original en negativo se le va restando el numero
+    * de caracteres de la busqueda mientras vaya en aumento y sumando cuando va decrementando
+    * a cuentas de que al final regrese al valor original.
+    */
+
+			var deltaVal = oldVal.length - newVal.length;
+			var in_limits = oldVal.length == 0 || newVal.length == 0;
+			if (in_limits) {
+				this.categoriaSeleccionada.id = oldVal.length == 0 ? -this.categoriaSeleccionada.id + deltaVal : -(this.categoriaSeleccionada.id + deltaVal);
+			} else {
+				this.categoriaSeleccionada.id += deltaVal;
+			}
+		}
+	}
+});
+
+/***/ }),
+
+/***/ 49:
+/***/ (function(module, exports) {
+
+/**
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing. The function also has a property 'clear' 
+ * that is a function which will clear the timer to prevent previously scheduled executions. 
+ *
+ * @source underscore.js
+ * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+ * @param {Function} function to wrap
+ * @param {Number} timeout in ms (`100`)
+ * @param {Boolean} whether to execute at the beginning (`false`)
+ * @api public
+ */
+function debounce(func, wait, immediate){
+  var timeout, args, context, timestamp, result;
+  if (null == wait) wait = 100;
+
+  function later() {
+    var last = Date.now() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+    }
+  };
+
+  var debounced = function(){
+    context = this;
+    args = arguments;
+    timestamp = Date.now();
+    var callNow = immediate && !timeout;
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = args = null;
+    }
+
+    return result;
+  };
+
+  debounced.clear = function() {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+  
+  debounced.flush = function() {
+    if (timeout) {
+      result = func.apply(context, args);
+      context = args = null;
+      
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  return debounced;
+};
+
+// Adds compatibility for ES modules
+debounce.debounce = debounce;
+
+module.exports = debounce;
+
+
+/***/ }),
+
+/***/ 50:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-sm-8" }, [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("h5", [_vm._v("Menú")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "nav nav-pills", attrs: { role: "tablist" } },
+          [
+            _vm._l(_vm.categorias, function(categoria) {
+              return _c("div", { key: categoria.id, staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    class: [
+                      categoria.id == _vm.categoriaSeleccionada.id
+                        ? "active"
+                        : "",
+                      "nav-link",
+                      "text-capitalize"
+                    ],
+                    attrs: { href: "javascript:void(0)" },
+                    on: {
+                      click: function($event) {
+                        _vm.categoriaSeleccionada.id = categoria.id
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t" +
+                        _vm._s(categoria.descripcion) +
+                        "\n\t\t\t\t\t"
+                    )
+                  ]
+                )
+              ])
+            }),
+            _vm._v(" "),
+            _c("form", { staticClass: "form-inline" }, [
+              _c("i", {
+                staticClass: "fas fa-search",
+                attrs: { "aria-hidden": "true" }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.busqueda,
+                    expression: "busqueda"
+                  }
+                ],
+                staticClass: "form-control ml-3 mw-100",
+                attrs: {
+                  type: "text",
+                  placeholder: "Buscar Producto",
+                  "aria-label": "search"
+                },
+                domProps: { value: _vm.busqueda },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.busqueda = $event.target.value
+                  }
+                }
+              })
+            ])
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "card-body" },
+        _vm._l(_vm.categoriaSeleccionada["obj"], function(items, index) {
+          return _c("div", { key: index, staticClass: "container" }, [
+            _c("div", { staticClass: "row font-weight-bold" }, [
+              _c("h5", [
+                _c("i", { staticClass: "fas fa-angle-right" }, [
+                  _vm._v(" " + _vm._s(index) + " ")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row" },
+              _vm._l(items, function(producto) {
+                return _c(
+                  "div",
+                  { key: producto.id, staticClass: "col-md-3" },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "product-card card mb-3",
+                        attrs: { id: "product-" + producto.id }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "simple-link",
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.productoSeleccionado(producto)
+                              }
+                            }
+                          },
+                          [
+                            _c("img", {
+                              staticClass: "card-img-top",
+                              attrs: { src: producto.nombre_imagen }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(0, true),
+                            _vm._v(" "),
+                            _c(
+                              "h6",
+                              {
+                                staticClass:
+                                  "card-title text-center text-capitalize"
+                              },
+                              [
+                                _c("b", [
+                                  _vm._v(" " + _vm._s(producto.nombre) + " ")
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              })
+            )
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "card-img-overlay bg-dark text-white text-center align-middle"
+      },
+      [_c("i", { staticClass: "fas fa-plus-circle fa-3x" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-58a2149a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 51:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "container" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [_c("menu-component"), _vm._v(" "), _c("ticket-component")],
+          1
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [
+        _c("i", { staticClass: "fa fa-utensils" }),
+        _vm._v("   Consumos")
+      ]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "nav nav-tabs" }, [
+        _c("li", { staticClass: "nav-item" }, [
+          _c("a", { staticClass: "nav-link active", attrs: { href: "#" } }, [
+            _vm._v("1")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+            _vm._v("2")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fas fa-plus" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fas fa-minus" })
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4d1dfe25", module.exports)
   }
 }
 
