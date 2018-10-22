@@ -3,24 +3,34 @@
         <div class="card-header">
             <h5><i class="fa fa-utensils"></i>&nbsp;&nbsp; Consumos</h5>
             <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">1</a>
+                <li v-for="(ticket, index) in tickets" :key="index" class="nav-item">
+                    <a :class="['nav-link', (index==ticketSel? 'active': '')]"
+                    href="javascript:void(0)"
+                    @click="cambiaTicket(index)">
+                        {{ticket.mesa}}
+                    </a>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">2</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-plus"></i></a>
+                    <a class="nav-link"
+                    data-toggle="modal"
+                    data-target="#nuevoTicket"><i class="fas fa-plus"></i></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-minus"></i></a>
+                <li v-if="tickets.length > 0" class="nav-item">
+                    <a class="nav-link"
+                    data-toggle="modal"
+                    data-target="#nuevoTicket"
+                    @click="activaEdicion"><i class="fas fa-edit"></i></a>
                 </li>
             </ul>
         </div>
         
         <div class="card-body">
             <div class="container">
-                <div class="row">
+                <div v-if="tickets.length > 0" class="row">
                     
                     <!-- Panel del menú -->
                     <menu-component></menu-component>
@@ -28,6 +38,50 @@
                     <!-- Panel de la lista de los productos del consumo -->
                     <ticket-component></ticket-component>
 
+                </div>
+                <div v-else class="row justify-content-center text-muted">
+                    <div class="col-sm text-center align-middle">
+                        <i class="fas fa-exclamation-circle fa-5x"/>
+                        <h2>No hay tickets pendientes</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="nuevoTicket" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ modalEdit? 'Editar Ticket' : 'Nuevo Ticket' }}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body justify-content-center">
+                        <form class="form">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label>Mesa</label>
+                                    <select id="mesa" class="form-control" v-model="mesaSel">
+                                        <option value="">Seleccione una opcion</option>
+                                        <option v-for="(mesa, index) in mesas" :key="index" :value="mesa">{{mesa}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label>Mesero</label>
+                                    <select id="mesero" class="form-control" v-model.number="meseroSel">
+                                        <option value="-1">Seleccione una opcion</option>
+                                        <option v-for="(mesero,index) in meseros" :key="mesero.id" :value="index">{{mesero.nombre}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" :disabled="deshabilitaNuevoTicket" @click="addTicket">Aceptar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,17 +100,21 @@
         {
             return{
                 tickets: [
-                    {
+                    /*{
                         mesa: '',
                         mesero: '',
                         status: '',
                         listaProductos: []
-                    }
-                ]
+                    }*/
+                ],
+                ticketSel: 0,
+                mesas: [],
+                meseros: [],
+                mesaSel: "",
+                meseroSel: -1,
+                $modalAdd: {},
+                modalEdit: false,
             }
-        },
-        mounted()
-        {
         },
         created()
         {
@@ -64,9 +122,83 @@
                 this.tickets[obj.id].listaProductos = obj.list;
             });
         },
+        mounted()
+        {
+            axios
+			.get('consumos/mesas')
+			.then((response) => {
+				this.mesas = response.data;
+            });
+            axios
+			.get('consumos/meseros')
+			.then((response) => {
+				this.meseros = response.data;
+            });
+            this.$modalAdd = $("#nuevoTicket");
+            this.$modalAdd.modal({show:false});
+            this.$modalAdd.on('hidden.bs.modal', this.clearForm);
+        },
         methods:
         {
+            clearForm: function()
+            {
+                this.mesaSel = "";
+                this.meseroSel = -1;
+                this.modalEdit = false;
+            },
+            activaEdicion: function()
+            {
+                var $this = this;
+                this.modalEdit = true;
+                this.mesaSel = this.tickets[this.ticketSel].mesa;
+                this.meseroSel = this.meseros.findIndex(function(item){
+                    return item.nombre == $this.tickets[$this.ticketSel].mesero.nombre;
+                });
+            },
+            addTicket: function()
+            {
 
+                if(!this.modalEdit)
+                {
+                    var index = this.tickets.push({
+                        'mesa': this.mesaSel,
+                        'mesero': this.meseros[this.meseroSel],
+                        'status': 1,
+                        'listaProductos': []
+                    })-1;
+                    productBus.$emit('cambioDeTicket',{
+                        'id' : index,
+                        'listaProductos': []
+                    });
+                    this.ticketSel = index;
+                }
+                else
+                {
+                    this.tickets[this.ticketSel].mesa = this.mesaSel;
+                    this.tickets[this.ticketSel].mesero = this.meseros[this.meseroSel];
+                }
+                
+                this.$modalAdd.modal('hide');
+            },
+            cambiaTicket: function( index )
+            {
+                productBus.$emit('cambioDeTicket',{
+                    'id' : index,
+                    'listaProductos': this.tickets[index].listaProductos
+                });
+                this.ticketSel = index;
+            }
+        },
+        watch:
+        {
+
+        },
+        computed:
+        {
+            deshabilitaNuevoTicket: function()
+            {
+                return (this.mesaSel == "" || this.meseroSel == -1);
+            }
         }
     }
 </script>

@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/consumos', 'Consumos\NotasController@index')->name('consumos');
-Route::get('/consumos/categorias', 'Consumos\NotasController@categorias')->name('categorias');
-Route::get('/consumos/productos/{parametro}', 'Consumos\NotasController@productos')->name('productos');
-Route::get('/consumos/precios/{id_producto}', 'Consumos\NotasController@precios')->name('precios');
+Route::get('/consumos/categorias', 'Consumos\NotasController@getCategorias')->name('categorias');
+Route::get('/consumos/productos/{parametro}', 'Consumos\NotasController@getProductos')->name('productos');
+Route::get('/consumos/precios/{id_producto}', 'Consumos\NotasController@getPrecios')->name('precios');
+Route::get('/consumos/mesas/', 'Consumos\NotasController@getMesas')->name('mesas');
+Route::get('/consumos/meseros/', 'Consumos\NotasController@getMeseros')->name('meseros');

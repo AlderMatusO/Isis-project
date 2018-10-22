@@ -8,6 +8,7 @@ use App\PrecioProducto;
 use App\Nota;
 use App\Producto;
 use App\CategoriaProducto;
+use App\Mesa;
 
 use App\Http\Controllers\Controller;
 
@@ -28,7 +29,7 @@ class NotasController extends Controller
     	return view("consumos.notas");
     }
 
-    public function productos( $parametro )
+    public function getProductos( $parametro )
     {
         // Si el parametro es numerico, busca los productos por categoria,
         // si es una cadena, busca por nombre con un LIKE % $parametro %
@@ -50,23 +51,12 @@ class NotasController extends Controller
         return $productos->toJson();
     }
 
-    public function categorias(){
+    public function getCategorias(){
         return CategoriaProducto::all()->toJson();
     }
 
-    public function precios( $id_producto )
+    public function getPrecios( $id_producto )
     {
-        /*$precios = PrecioProducto::where('producto_id', $id_producto)
-        ->get()
-        ->keyBy('modo_servicio.descripcion')
-        ->transform(function($item, $key){
-            return $item->only(
-                // Para minificar el response
-                ["id", "precio"]
-            );
-        
-        });*/
-
         $precios = PrecioProducto::where('producto_id', $id_producto)
         ->get()
         ->transform(function($item, $key){
@@ -99,5 +89,27 @@ class NotasController extends Controller
         })->keyBy("id");
         
         return $precios->toJson();
+    }
+
+    public function getMesas()
+    {
+        return Mesa::all()
+        ->transform(function($item)
+        {
+            return $item->nombre;
+        })
+        ->toJson();
+    }
+
+    public function getMeseros()
+    {
+        return Usuario::where([['tipo_id','=', 2],['activo', '=', 1]])->get()
+        ->transform( function($item)
+        {
+            $obj = collect(['id'=>$item->nombre]);
+            $obj->put('nombre', $item->datos->nombre_completo);
+            return $obj;
+        })
+        ->toJson();
     }
 }

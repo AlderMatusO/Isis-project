@@ -290,6 +290,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -300,13 +354,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            tickets: [{
-                status: '',
-                listaProductos: []
-            }]
+            tickets: [
+                /*{
+                    mesa: '',
+                    mesero: '',
+                    status: '',
+                    listaProductos: []
+                }*/
+            ],
+            ticketSel: 0,
+            mesas: [],
+            meseros: [],
+            mesaSel: "",
+            meseroSel: -1,
+            $modalAdd: {},
+            modalEdit: false
         };
     },
-    mounted: function mounted() {},
     created: function created() {
         var _this = this;
 
@@ -314,8 +378,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.tickets[obj.id].listaProductos = obj.list;
         });
     },
+    mounted: function mounted() {
+        var _this2 = this;
 
-    methods: {}
+        axios.get('consumos/mesas').then(function (response) {
+            _this2.mesas = response.data;
+        });
+        axios.get('consumos/meseros').then(function (response) {
+            _this2.meseros = response.data;
+        });
+        this.$modalAdd = $("#nuevoTicket");
+        this.$modalAdd.modal({ show: false });
+        this.$modalAdd.on('hidden.bs.modal', this.clearForm);
+    },
+
+    methods: {
+        clearForm: function clearForm() {
+            this.mesaSel = "";
+            this.meseroSel = -1;
+            this.modalEdit = false;
+        },
+        activaEdicion: function activaEdicion() {
+            var $this = this;
+            this.modalEdit = true;
+            this.mesaSel = this.tickets[this.ticketSel].mesa;
+            this.meseroSel = this.meseros.findIndex(function (item) {
+                return item.nombre == $this.tickets[$this.ticketSel].mesero.nombre;
+            });
+        },
+        addTicket: function addTicket() {
+
+            if (!this.modalEdit) {
+                var index = this.tickets.push({
+                    'mesa': this.mesaSel,
+                    'mesero': this.meseros[this.meseroSel],
+                    'status': 1,
+                    'listaProductos': []
+                }) - 1;
+                __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
+                    'id': index,
+                    'listaProductos': []
+                });
+                this.ticketSel = index;
+            } else {
+                this.tickets[this.ticketSel].mesa = this.mesaSel;
+                this.tickets[this.ticketSel].mesero = this.meseros[this.meseroSel];
+            }
+
+            this.$modalAdd.modal('hide');
+        },
+        cambiaTicket: function cambiaTicket(index) {
+            __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
+                'id': index,
+                'listaProductos': this.tickets[index].listaProductos
+            });
+            this.ticketSel = index;
+        }
+    },
+    watch: {},
+    computed: {
+        deshabilitaNuevoTicket: function deshabilitaNuevoTicket() {
+            return this.mesaSel == "" || this.meseroSel == -1;
+        }
+    }
 });
 
 /***/ }),
@@ -503,15 +628,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.productoActual.id = producto.id;
             _this.productoActual.nombre = producto.nombre;
         });
+        __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('cambioDeTicket', function (ticket) {
+            _this.listaProductos = ticket.listaProductos, _this.ticketId = ticket.id;
+        });
     },
     mounted: function mounted() {
         this.$modalAdd = $("#nuevoProducto");
         this.$modalAdd.modal({ show: false });
-        this.$modalAdd.on('hidden.bs.modal', this.modalAddHidden);
+        this.$modalAdd.on('hidden.bs.modal', this.clearForm);
     },
 
     methods: {
-        modalAddHidden: function modalAddHidden() {
+        clearForm: function clearForm() {
             this.productoActual.id = 0;
         },
         findPrecioPorKilo: function findPrecioPorKilo(listaPreciosPorKg, idsPreciosEnLista) {
@@ -607,16 +735,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var id = ids.indexOf(prodId);
             if (id >= 0) {
                 var divisor = 1.0;
-                if ([2, 3].includes(this.listaProductos[id].modo_servicio_id)) {
-                    switch (this.listaProductos[id].modo_servicio_id) {
-                        case 2:
-                            divisor = 0.50;
-                            break;
-                        case 3:
-                            divisor = 0.25;
-                            break;
-                    }
-                }
+                if (this.listaProductos[id].modo_servicio_id == 2) divisor = 0.50;
+                if (this.listaProductos[id].modo_servicio_id == 3) divisor = 0.25;
                 return (parseFloat(this.listaProductos[id].precio) * parseFloat(this.listaProductos[id].cantidad / divisor)).toFixed(2);
             }
             return 0.00;
@@ -905,11 +1025,11 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
-                _c("h5", { staticClass: "modal-title" }, [
+                _c("h5", { staticClass: "modal-title font-weight-bold" }, [
                   _vm._v(
                     "Agregar " +
                       _vm._s(_vm.productoActual.nombre) +
-                      "\n                "
+                      "\n                    "
                   )
                 ]),
                 _vm._v(" "),
@@ -975,9 +1095,9 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                    " +
+                                          "\n                                        " +
                                             _vm._s(precio.modo_servicio) +
-                                            "\n                                "
+                                            "\n                                    "
                                         )
                                       ]
                                     )
@@ -1558,18 +1678,233 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "nav nav-tabs" },
+        [
+          _vm._l(_vm.tickets, function(ticket, index) {
+            return _c("li", { key: index, staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  class: ["nav-link", index == _vm.ticketSel ? "active" : ""],
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.cambiaTicket(index)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(ticket.mesa) +
+                      "\n                "
+                  )
+                ]
+              )
+            ])
+          }),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm.tickets.length > 0
+            ? _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link",
+                    attrs: {
+                      "data-toggle": "modal",
+                      "data-target": "#nuevoTicket"
+                    },
+                    on: { click: _vm.activaEdicion }
+                  },
+                  [_c("i", { staticClass: "fas fa-edit" })]
+                )
+              ])
+            : _vm._e()
+        ],
+        2
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("div", { staticClass: "container" }, [
+        _vm.tickets.length > 0
+          ? _c(
+              "div",
+              { staticClass: "row" },
+              [_c("menu-component"), _vm._v(" "), _c("ticket-component")],
+              1
+            )
+          : _c(
+              "div",
+              { staticClass: "row justify-content-center text-muted" },
+              [_vm._m(2)]
+            )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "nuevoTicket", tabindex: "-1", role: "dialog" }
+      },
+      [
         _c(
           "div",
-          { staticClass: "row" },
-          [_c("menu-component"), _vm._v(" "), _c("ticket-component")],
-          1
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _vm._v(
+                    _vm._s(_vm.modalEdit ? "Editar Ticket" : "Nuevo Ticket") +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(3)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body justify-content-center" }, [
+                _c("form", { staticClass: "form" }, [
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-2" }, [
+                      _c("label", [_vm._v("Mesa")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.mesaSel,
+                              expression: "mesaSel"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "mesa" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.mesaSel = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Seleccione una opcion")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.mesas, function(mesa, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: mesa } },
+                              [_vm._v(_vm._s(mesa))]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-8" }, [
+                      _c("label", [_vm._v("Mesero")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.number",
+                              value: _vm.meseroSel,
+                              expression: "meseroSel",
+                              modifiers: { number: true }
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "mesero" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return _vm._n(val)
+                                })
+                              _vm.meseroSel = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "-1" } }, [
+                            _vm._v("Seleccione una opcion")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.meseros, function(mesero, index) {
+                            return _c(
+                              "option",
+                              { key: mesero.id, domProps: { value: index } },
+                              [_vm._v(_vm._s(mesero.nombre))]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      type: "button",
+                      disabled: _vm.deshabilitaNuevoTicket
+                    },
+                    on: { click: _vm.addTicket }
+                  },
+                  [_vm._v("Aceptar")]
+                )
+              ])
+            ])
+          ]
         )
-      ])
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -1577,38 +1912,52 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", [
-        _c("i", { staticClass: "fa fa-utensils" }),
-        _vm._v("   Consumos")
-      ]),
-      _vm._v(" "),
-      _c("ul", { staticClass: "nav nav-tabs" }, [
-        _c("li", { staticClass: "nav-item" }, [
-          _c("a", { staticClass: "nav-link active", attrs: { href: "#" } }, [
-            _vm._v("1")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("2")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _c("i", { staticClass: "fas fa-plus" })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _c("i", { staticClass: "fas fa-minus" })
-          ])
-        ])
-      ])
+    return _c("h5", [
+      _c("i", { staticClass: "fa fa-utensils" }),
+      _vm._v("   Consumos")
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: { "data-toggle": "modal", "data-target": "#nuevoTicket" }
+        },
+        [_c("i", { staticClass: "fas fa-plus" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm text-center align-middle" }, [
+      _c("i", { staticClass: "fas fa-exclamation-circle fa-5x" }),
+      _vm._v(" "),
+      _c("h2", [_vm._v("No hay tickets pendientes")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

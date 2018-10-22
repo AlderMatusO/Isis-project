@@ -34,5 +34,10 @@ class Persona extends Model
     {
         return $this->hasOne('App\Usuario', 'datos_id');
     }
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->nombres." ".$this->apellidos;
+    }
     
 }

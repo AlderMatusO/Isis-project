@@ -58,45 +58,45 @@
         <div id="nuevoProducto" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar {{ productoActual.nombre }}
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="form">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Presentacion:</label>
-                                <select v-if="mostrarSelect" class="form-control" v-model.number="productoActual.precioSeleccionado">
-                                    <option :value="0">Seleccione una opcion</option>
-                                    <option v-for="precio in productoActual.precios" :key="precio.id"
-                                        v-if="![2,3].includes(precio.modo_servicio_id)"
-                                        :value="precio.id">
-                                        {{ precio.modo_servicio }}
-                                    </option>
-                                </select>
-                                <b v-else>{{ presentacionDefault }}</b>
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold">Agregar {{ productoActual.nombre }}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Presentacion:</label>
+                                    <select v-if="mostrarSelect" class="form-control" v-model.number="productoActual.precioSeleccionado">
+                                        <option :value="0">Seleccione una opcion</option>
+                                        <option v-for="precio in productoActual.precios" :key="precio.id"
+                                            v-if="![2,3].includes(precio.modo_servicio_id)"
+                                            :value="precio.id">
+                                            {{ precio.modo_servicio }}
+                                        </option>
+                                    </select>
+                                    <b v-else>{{ presentacionDefault }}</b>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Cantidad:</label>
+                                    <input type="number"
+                                    class="form-control"
+                                    v-model.number="productoActual.cantidad"
+                                    min="0"
+                                    :step="cantidadStep"
+                                    @keypress="validaCantidad">
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Cantidad:</label>
-                                <input type="number"
-                                class="form-control"
-                                v-model.number="productoActual.cantidad"
-                                min="0"
-                                :step="cantidadStep"
-                                @keypress="validaCantidad">
-                            </div>
-                        </div>
-                        
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" :disabled="disableSubmit" @click="addProducto">Aceptar</button>
-                </div>
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" :disabled="disableSubmit" @click="addProducto">Aceptar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,16 +128,20 @@
                 this.productoActual.id = producto.id;
                 this.productoActual.nombre = producto.nombre;
             });
+            productBus.$on('cambioDeTicket', (ticket) => {
+                this.listaProductos = ticket.listaProductos,
+                this.ticketId = ticket.id
+            });
         },
         mounted()
         {
             this.$modalAdd = $("#nuevoProducto");
             this.$modalAdd.modal({show:false});
-            this.$modalAdd.on('hidden.bs.modal', this.modalAddHidden);
+            this.$modalAdd.on('hidden.bs.modal', this.clearForm);
         },
         methods:
         {
-            modalAddHidden: function()
+            clearForm: function()
             {
                 this.productoActual.id = 0;
             },
