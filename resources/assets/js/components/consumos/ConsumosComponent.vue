@@ -7,23 +7,29 @@
                     <a :class="['nav-link', (index==ticketSel? 'active': '')]"
                     href="javascript:void(0)"
                     @click="cambiaTicket(index)">
-                        {{ticket.mesa}}
+                        {{ticket.mesa}}({{getStatus(ticket.status)}})
                     </a>
                 </li>
-                <!--
                 <li class="nav-item">
-                    <a class="nav-link" href="#">2</a>
-                </li>-->
-                <li class="nav-item">
-                    <a class="nav-link"
-                    data-toggle="modal"
-                    data-target="#nuevoTicket"><i class="fas fa-plus"></i></a>
+                    <span data-toggle="tooltip"
+                    data-title="Nuevo Ticket">
+                        <a class="nav-link"
+                        data-toggle="modal"
+                        data-target="#nuevoTicket">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </span>
                 </li>
                 <li v-if="tickets.length > 0" class="nav-item">
-                    <a class="nav-link"
-                    data-toggle="modal"
-                    data-target="#nuevoTicket"
-                    @click="activaEdicion"><i class="fas fa-edit"></i></a>
+                    <span data-toggle="tooltip"
+                    data-title="Editar Ticket">
+                        <a class="nav-link"
+                        data-toggle="modal"
+                        data-target="#nuevoTicket"
+                        @click="activaEdicion">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </span>
                 </li>
             </ul>
         </div>
@@ -121,6 +127,27 @@
             productBus.$on('listChanged', (obj) => {
                 this.tickets[obj.id].listaProductos = obj.list;
             });
+
+            productBus.$on('closeTicket', (id) => {
+                var data = {
+                    'mesa' : this.tickets[id].mesa,
+                    'mesero' : this.tickets[id].mesero,
+                    'status' : 1,
+                    'productos' : this.tickets[id].listaProductos
+                };
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                }
+
+                axios
+                .post('consumos/create', data, config);
+            });
+
+        
+           
         },
         mounted()
         {
@@ -140,6 +167,18 @@
         },
         methods:
         {
+            getStatus: function(status)
+            {
+                var str;
+                switch(status)
+                {
+                    case 0: str = "Abierto"; break;
+                    case 1: str = "Cerrado"; break;
+                    case 2: str = "Pagado"; break;
+                    case 3: str = "Cancelado"; break;
+                }
+                return str;
+            },
             clearForm: function()
             {
                 this.mesaSel = "";
@@ -163,7 +202,7 @@
                     var index = this.tickets.push({
                         'mesa': this.mesaSel,
                         'mesero': this.meseros[this.meseroSel],
-                        'status': 1,
+                        'status': 0,
                         'listaProductos': []
                     })-1;
                     productBus.$emit('cambioDeTicket',{
@@ -184,7 +223,8 @@
             {
                 productBus.$emit('cambioDeTicket',{
                     'id' : index,
-                    'listaProductos': this.tickets[index].listaProductos
+                    'listaProductos': this.tickets[index].listaProductos,
+                    'status' : this.tickets[index].status
                 });
                 this.ticketSel = index;
             }

@@ -18,6 +18,13 @@
                 title="Cerrar Cuenta">
                     <i class="fas fa-bell-slash"/>
                 </button>
+                <button
+                type="button"
+                :class="['btn', 'btn-primary', (status > 1? 'visible' : 'invisible')]"
+                data-toggle="tooltip"
+                title="Impimir Recibo">
+                    <i class="fas fa-print"/>
+                </button>
             </div>
             <div class="card-body p-0">
                 <ul id="products-list" class="list-group list-group-flush">
@@ -119,7 +126,8 @@
                     precioSeleccionado: 0,
                 },
                 listaProductos: [],
-                $modalAdd: {}
+                $modalAdd: {},
+                status: 0
             }
         },
         created()
@@ -130,7 +138,8 @@
             });
             productBus.$on('cambioDeTicket', (ticket) => {
                 this.listaProductos = ticket.listaProductos,
-                this.ticketId = ticket.id
+                this.ticketId = ticket.id,
+                this.status = ticket.status
             });
         },
         mounted()

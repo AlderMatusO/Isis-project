@@ -112,4 +112,23 @@ class NotasController extends Controller
         })
         ->toJson();
     }
+
+    public function createConsumo(Request $request)
+    {
+        $data = [
+            'mesa_id' => $request->input('mesa'),
+            'mesero_id' => $request->input('mesero'),
+            'fecha' => date('d-m-Y'),
+            'hora' => date('h:i:s'),
+            'estado_id' => $request->input('status')
+        ];
+        $consumo = Consumo::create( $data );
+
+        if( $request->has('productos') && $request->filled('productos') )
+        {
+
+        }
+
+        return var_dump( $consumo );
+    }
 }

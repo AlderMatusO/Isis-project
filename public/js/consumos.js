@@ -344,6 +344,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -377,6 +383,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('listChanged', function (obj) {
             _this.tickets[obj.id].listaProductos = obj.list;
         });
+
+        __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('closeTicket', function (id) {
+            var data = {
+                'mesa': _this.tickets[id].mesa,
+                'mesero': _this.tickets[id].mesero,
+                'status': 1,
+                'productos': _this.tickets[id].listaProductos
+            };
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            };
+
+            axios.post('consumos/create', data, config);
+        });
     },
     mounted: function mounted() {
         var _this2 = this;
@@ -393,6 +416,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        getStatus: function getStatus(status) {
+            var str;
+            switch (status) {
+                case 0:
+                    str = "Abierto";break;
+                case 1:
+                    str = "Cerrado";break;
+                case 2:
+                    str = "Pagado";break;
+                case 3:
+                    str = "Cancelado";break;
+            }
+            return str;
+        },
         clearForm: function clearForm() {
             this.mesaSel = "";
             this.meseroSel = -1;
@@ -412,7 +449,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var index = this.tickets.push({
                     'mesa': this.mesaSel,
                     'mesero': this.meseros[this.meseroSel],
-                    'status': 1,
+                    'status': 0,
                     'listaProductos': []
                 }) - 1;
                 __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
@@ -430,7 +467,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cambiaTicket: function cambiaTicket(index) {
             __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
                 'id': index,
-                'listaProductos': this.tickets[index].listaProductos
+                'listaProductos': this.tickets[index].listaProductos,
+                'status': this.tickets[index].status
             });
             this.ticketSel = index;
         }
@@ -604,6 +642,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -618,7 +663,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 precioSeleccionado: 0
             },
             listaProductos: [],
-            $modalAdd: {}
+            $modalAdd: {},
+            status: 0
         };
     },
     created: function created() {
@@ -629,7 +675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.productoActual.nombre = producto.nombre;
         });
         __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('cambioDeTicket', function (ticket) {
-            _this.listaProductos = ticket.listaProductos, _this.ticketId = ticket.id;
+            _this.listaProductos = ticket.listaProductos, _this.ticketId = ticket.id, _this.status = ticket.status;
         });
     },
     mounted: function mounted() {
@@ -928,6 +974,23 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-bell-slash" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            class: [
+              "btn",
+              "btn-primary",
+              _vm.status > 1 ? "visible" : "invisible"
+            ],
+            attrs: {
+              type: "button",
+              "data-toggle": "tooltip",
+              title: "Impimir Recibo"
+            }
+          },
+          [_c("i", { staticClass: "fas fa-print" })]
         )
       ]),
       _vm._v(" "),
@@ -1702,7 +1765,9 @@ var render = function() {
                   _vm._v(
                     "\n                    " +
                       _vm._s(ticket.mesa) +
-                      "\n                "
+                      "(" +
+                      _vm._s(_vm.getStatus(ticket.status)) +
+                      ")\n                "
                   )
                 ]
               )
@@ -1714,16 +1779,27 @@ var render = function() {
           _vm.tickets.length > 0
             ? _c("li", { staticClass: "nav-item" }, [
                 _c(
-                  "a",
+                  "span",
                   {
-                    staticClass: "nav-link",
                     attrs: {
-                      "data-toggle": "modal",
-                      "data-target": "#nuevoTicket"
-                    },
-                    on: { click: _vm.activaEdicion }
+                      "data-toggle": "tooltip",
+                      "data-title": "Editar Ticket"
+                    }
                   },
-                  [_c("i", { staticClass: "fas fa-edit" })]
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#nuevoTicket"
+                        },
+                        on: { click: _vm.activaEdicion }
+                      },
+                      [_c("i", { staticClass: "fas fa-edit" })]
+                    )
+                  ]
                 )
               ])
             : _vm._e()
@@ -1923,12 +1999,18 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "nav-item" }, [
       _c(
-        "a",
-        {
-          staticClass: "nav-link",
-          attrs: { "data-toggle": "modal", "data-target": "#nuevoTicket" }
-        },
-        [_c("i", { staticClass: "fas fa-plus" })]
+        "span",
+        { attrs: { "data-toggle": "tooltip", "data-title": "Nuevo Ticket" } },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { "data-toggle": "modal", "data-target": "#nuevoTicket" }
+            },
+            [_c("i", { staticClass: "fas fa-plus" })]
+          )
+        ]
       )
     ])
   },
