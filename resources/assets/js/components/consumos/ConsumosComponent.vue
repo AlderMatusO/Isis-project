@@ -71,7 +71,7 @@
                                     <label>Mesa</label>
                                     <select id="mesa" class="form-control" v-model="mesaSel">
                                         <option value="">Seleccione una opcion</option>
-                                        <option v-for="(mesa, index) in mesas" :key="index" :value="mesa">{{mesa}}</option>
+                                        <option v-for="(mesa, index) in mesas" :key="index" :value="mesa" v-if="showMesa(mesa)">{{mesa}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-8">
@@ -107,6 +107,7 @@
             return{
                 tickets: [
                     /*{
+                        id : -1,
                         mesa: '',
                         mesero: '',
                         status: '',
@@ -130,10 +131,14 @@
 
             productBus.$on('closeTicket', (id) => {
                 var data = {
-                    'mesa' : this.tickets[id].mesa,
-                    'mesero' : this.tickets[id].mesero,
-                    'status' : 1,
-                    'productos' : this.tickets[id].listaProductos
+                    'tickets' : [
+                        {
+                        'mesa' : this.tickets[id].mesa,
+                        'mesero' : this.tickets[id].mesero,
+                        'status' : 1,
+                        'productos' : this.tickets[id].listaProductos
+                        }
+                    ]
                 };
                 var config = {
                     headers : {
@@ -145,8 +150,6 @@
                 axios
                 .post('consumos/create', data, config);
             });
-
-        
            
         },
         mounted()
@@ -167,15 +170,20 @@
         },
         methods:
         {
+            showMesa( mesa )
+            {
+                var ticket = this.tickets.find( (item)=>{ return item.mesa == mesa && item.status < 3; });
+                return ticket == null || ( this.modalEdit && mesa == this.tickets[this.ticketSel].mesa );
+            },
             getStatus: function(status)
             {
                 var str;
                 switch(status)
                 {
-                    case 0: str = "Abierto"; break;
-                    case 1: str = "Cerrado"; break;
-                    case 2: str = "Pagado"; break;
-                    case 3: str = "Cancelado"; break;
+                    case 1: str = "Abierto"; break;
+                    case 2: str = "Cerrado"; break;
+                    case 3: str = "Pagado"; break;
+                    case 4: str = "Cancelado"; break;
                 }
                 return str;
             },
@@ -200,14 +208,16 @@
                 if(!this.modalEdit)
                 {
                     var index = this.tickets.push({
+                        'id': -1,
                         'mesa': this.mesaSel,
                         'mesero': this.meseros[this.meseroSel],
-                        'status': 0,
+                        'status': 1,
                         'listaProductos': []
                     })-1;
                     productBus.$emit('cambioDeTicket',{
                         'id' : index,
-                        'listaProductos': []
+                        'listaProductos': [],
+                        'status': 1
                     });
                     this.ticketSel = index;
                 }

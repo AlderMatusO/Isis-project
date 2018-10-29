@@ -362,6 +362,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             tickets: [
                 /*{
+                    id : -1,
                     mesa: '',
                     mesero: '',
                     status: '',
@@ -386,10 +387,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('closeTicket', function (id) {
             var data = {
-                'mesa': _this.tickets[id].mesa,
-                'mesero': _this.tickets[id].mesero,
-                'status': 1,
-                'productos': _this.tickets[id].listaProductos
+                'tickets': [{
+                    'mesa': _this.tickets[id].mesa,
+                    'mesero': _this.tickets[id].mesero,
+                    'status': 1,
+                    'productos': _this.tickets[id].listaProductos
+                }]
             };
             var config = {
                 headers: {
@@ -416,16 +419,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        showMesa: function showMesa(mesa) {
+            var ticket = this.tickets.find(function (item) {
+                return item.mesa == mesa && item.status < 3;
+            });
+            return ticket == null || this.modalEdit && mesa == this.tickets[this.ticketSel].mesa;
+        },
+
         getStatus: function getStatus(status) {
             var str;
             switch (status) {
-                case 0:
-                    str = "Abierto";break;
                 case 1:
-                    str = "Cerrado";break;
+                    str = "Abierto";break;
                 case 2:
-                    str = "Pagado";break;
+                    str = "Cerrado";break;
                 case 3:
+                    str = "Pagado";break;
+                case 4:
                     str = "Cancelado";break;
             }
             return str;
@@ -447,14 +457,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!this.modalEdit) {
                 var index = this.tickets.push({
+                    'id': -1,
                     'mesa': this.mesaSel,
                     'mesero': this.meseros[this.meseroSel],
-                    'status': 0,
+                    'status': 1,
                     'listaProductos': []
                 }) - 1;
                 __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
                     'id': index,
-                    'listaProductos': []
+                    'listaProductos': [],
+                    'status': 1
                 });
                 this.ticketSel = index;
             } else {
@@ -1400,6 +1412,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var debounce = __webpack_require__(49);
 
@@ -1407,6 +1428,7 @@ var debounce = __webpack_require__(49);
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
+			closed: false,
 			categoriaSeleccionada: {
 				id: 0,
 				obj: {}
@@ -1418,6 +1440,9 @@ var debounce = __webpack_require__(49);
 	},
 	created: function created() {
 		this.getProductos = debounce(this.getProductos, 300);
+		__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('cambioDeTicket', function (ticket) {
+			closed = ticket.status > 1;
+		});
 	},
 	mounted: function mounted() {
 		var _this = this;
@@ -1634,76 +1659,80 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-body" },
-        _vm._l(_vm.categoriaSeleccionada["obj"], function(items, index) {
-          return _c("div", { key: index, staticClass: "container" }, [
-            _c("div", { staticClass: "row font-weight-bold" }, [
-              _c("h5", [
-                _c("i", { staticClass: "fas fa-angle-right" }, [
-                  _vm._v(" " + _vm._s(index) + " ")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(items, function(producto) {
-                return _c(
+      !_vm.closed
+        ? _c(
+            "div",
+            { staticClass: "card-body" },
+            _vm._l(_vm.categoriaSeleccionada["obj"], function(items, index) {
+              return _c("div", { key: index, staticClass: "container" }, [
+                _c("div", { staticClass: "row font-weight-bold" }, [
+                  _c("h5", [
+                    _c("i", { staticClass: "fas fa-angle-right" }, [
+                      _vm._v(" " + _vm._s(index) + " ")
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
                   "div",
-                  { key: producto.id, staticClass: "col-md-3" },
-                  [
-                    _c(
+                  { staticClass: "row" },
+                  _vm._l(items, function(producto) {
+                    return _c(
                       "div",
-                      {
-                        staticClass: "product-card card mb-3",
-                        attrs: { id: "product-" + producto.id }
-                      },
+                      { key: producto.id, staticClass: "col-md-3" },
                       [
                         _c(
-                          "a",
+                          "div",
                           {
-                            staticClass: "simple-link",
-                            attrs: { href: "javascript:void(0)" },
-                            on: {
-                              click: function($event) {
-                                _vm.productoSeleccionado(producto)
-                              }
-                            }
+                            staticClass: "product-card card mb-3",
+                            attrs: { id: "product-" + producto.id }
                           },
                           [
-                            _c("img", {
-                              staticClass: "card-img-top",
-                              attrs: { src: producto.nombre_imagen }
-                            }),
-                            _vm._v(" "),
-                            _vm._m(0, true),
-                            _vm._v(" "),
                             _c(
-                              "h6",
+                              "a",
                               {
-                                staticClass:
-                                  "card-title text-center text-capitalize"
+                                staticClass: "simple-link",
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.productoSeleccionado(producto)
+                                  }
+                                }
                               },
                               [
-                                _c("b", [
-                                  _vm._v(" " + _vm._s(producto.nombre) + " ")
-                                ])
+                                _c("img", {
+                                  staticClass: "card-img-top",
+                                  attrs: { src: producto.nombre_imagen }
+                                }),
+                                _vm._v(" "),
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c(
+                                  "h6",
+                                  {
+                                    staticClass:
+                                      "card-title text-center text-capitalize"
+                                  },
+                                  [
+                                    _c("b", [
+                                      _vm._v(
+                                        " " + _vm._s(producto.nombre) + " "
+                                      )
+                                    ])
+                                  ]
+                                )
                               ]
                             )
                           ]
                         )
                       ]
                     )
-                  ]
+                  })
                 )
-              })
-            )
-          ])
-        })
-      )
+              ])
+            })
+          )
+        : _c("div", { staticClass: "card-body" }, [_vm._m(1)])
     ])
   ])
 }
@@ -1720,6 +1749,20 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fas fa-plus-circle fa-3x" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center text-muted" }, [
+        _c("div", { staticClass: "col-sm text-center align-middle" }, [
+          _c("i", { staticClass: "fas fa-exclamation-circle fa-5x" }),
+          _vm._v(" "),
+          _c("h2", [_vm._v("No se pueden agregar productos al ticket")])
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -1889,11 +1932,13 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _vm._l(_vm.mesas, function(mesa, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: mesa } },
-                              [_vm._v(_vm._s(mesa))]
-                            )
+                            return _vm.showMesa(mesa)
+                              ? _c(
+                                  "option",
+                                  { key: index, domProps: { value: mesa } },
+                                  [_vm._v(_vm._s(mesa))]
+                                )
+                              : _vm._e()
                           })
                         ],
                         2

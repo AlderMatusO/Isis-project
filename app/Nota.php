@@ -22,6 +22,6 @@ class Nota extends Model
 
     public function productos()
     {
-        return $this->belongsToMany('App\PrecioProducto', 'notas_productos');
+        return $this->belongsToMany('App\PrecioProducto', 'notas_productos', 'nota_id', 'producto_id')->withPivot('cantidad');
     }
 }

@@ -34,7 +34,7 @@
 				</div>
 
 			</div>
-			<div class="card-body">				
+			<div v-if="!closed" class="card-body">				
 				<div v-for="(items, index) in categoriaSeleccionada['obj']"
 				:key="index"
 				class="container">
@@ -66,7 +66,16 @@
 							</div>
 						</div>
 					</div>
-
+				</div>
+			</div>
+			<div v-else class="card-body">
+				<div class="container">
+					<div class="row justify-content-center text-muted">
+						<div class="col-sm text-center align-middle">
+							<i class="fas fa-exclamation-circle fa-5x"/>
+							<h2>No se pueden agregar productos al ticket</h2>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -82,6 +91,7 @@
 		data()
 		{
 			return {
+				closed : false,
 				categoriaSeleccionada : {
 					id: 0,
 					obj: {}
@@ -94,6 +104,9 @@
 		created()
 		{
 			this.getProductos = debounce( this.getProductos, 300);
+			productBus.$on('cambioDeTicket', (ticket) => {
+				closed = ticket.status > 1;
+			});
 		},
 		mounted()
 		{

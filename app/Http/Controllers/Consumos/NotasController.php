@@ -9,7 +9,7 @@ use App\Nota;
 use App\Producto;
 use App\CategoriaProducto;
 use App\Mesa;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class NotasController extends Controller
@@ -113,22 +113,61 @@ class NotasController extends Controller
         ->toJson();
     }
 
-    public function createConsumo(Request $request)
+    public function getConsumos()
     {
-        $data = [
-            'mesa_id' => $request->input('mesa'),
-            'mesero_id' => $request->input('mesero'),
-            'fecha' => date('d-m-Y'),
-            'hora' => date('h:i:s'),
-            'estado_id' => $request->input('status')
-        ];
-        $consumo = Consumo::create( $data );
+        $consumos = Consumo::where(['estado_id', '<', 2])->get();
+        
+    }
 
-        if( $request->has('productos') && $request->filled('productos') )
+    public function saveConsumo(Request $request)
+    {
+        $tickets = $request->input("tickets");
+        $n = count($tickets);
+        $id = -1;
+        foreach($tickets as $ticket)
         {
+            //  Busca el ticket, si existe actualiza, si no crea uno nuevo
+            if($ticket["id"] == -1) //Crea
+            {
+                $consumo = Consumo::create(
+                    [
+                        'mesa_id' => $ticket["mesa"],
+                        'mesero_id' => $ticket["mesero"],
+                        'fecha' => date('Y-n-d'),
+                        'hora' => date('h:i:s'),
+                        'estado_id' => $ticket["status"]
+                    ]
+                );
+                $consumo->notas()->save( $nota = new Nota() );
+                if(array_key_exists("productos", $ticket) && count($ticket["productos"]) > 0)
+                {
+                    foreach($ticket["productos"] as $producto)
+                    {
+                        $nota->productos()->attach( $producto["id"], ['cantidad' => $producto["cantidad"] ] );
+                    }
+                }
+                $id = $consumo->id;
+            }
+            else    //Actualiza
+            {
+                $consumo = Consumo::find($ticket["id"]);
+                $consumo->mesa_id = $ticket["mesa"];
+                $consumo->mesero_id = $ticket["mesero"];
+                $consumo->estado_id = $ticket["status"];
+                $consumo->save();
 
+                $nota = $consumo->notas->first();
+                $productos = [];
+                if(array_key_exists("productos", $ticket) && count($ticket["productos"]) > 0)
+                {
+                    foreach($ticket["productos"] as $producto)
+                    {
+                        $productos[ $producto["id"] ] = ['cantidad' => $producto["cantidad"] ];
+                    }
+                }
+                $nota->productos()->sync($productos);
+            }
         }
-
-        return var_dump( $consumo );
+        return $n > 1 || $id == -1? "true" : $id;
     }
 }
