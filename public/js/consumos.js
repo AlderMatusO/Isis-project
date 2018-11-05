@@ -369,7 +369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     listaProductos: []
                 }*/
             ],
-            ticketSel: 0,
+            ticketSel: -1,
             mesas: [],
             meseros: [],
             mesaSel: "",
@@ -389,7 +389,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var data = {
                 'tickets': [{
                     'mesa': _this.tickets[id].mesa,
-                    'mesero': _this.tickets[id].mesero,
+                    'mesero': _this.tickets[id].mesero.id,
                     'status': 1,
                     'productos': _this.tickets[id].listaProductos
                 }]
@@ -403,6 +403,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('consumos/create', data, config);
         });
+        document.addEventListener('beforeunload', this.saveAll);
     },
     mounted: function mounted() {
         var _this2 = this;
@@ -413,12 +414,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         axios.get('consumos/meseros').then(function (response) {
             _this2.meseros = response.data;
         });
+
+        this.$nextTick(function () {
+            var _this3 = this;
+
+            axios.get('consumos/data').then(function (response) {
+                _this3.tickets = response.data;
+                _this3.ticketSel = 0;
+            });
+        });
+
         this.$modalAdd = $("#nuevoTicket");
         this.$modalAdd.modal({ show: false });
         this.$modalAdd.on('hidden.bs.modal', this.clearForm);
     },
 
     methods: {
+        saveAll: function saveAll() {
+            var data = {
+                'tickets': this.tickets.map(function (ticket) {
+                    return {
+                        'mesa': ticket.mesa,
+                        'mesero': ticket.mesero.id,
+                        'status': ticket.status,
+                        'productos': ticket.listaProductos
+                    };
+                })
+            };
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            };
+
+            axios.post('consumos/create', data, config);
+        },
         showMesa: function showMesa(mesa) {
             var ticket = this.tickets.find(function (item) {
                 return item.mesa == mesa && item.status < 3;
@@ -463,11 +494,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     'status': 1,
                     'listaProductos': []
                 }) - 1;
-                __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
-                    'id': index,
-                    'listaProductos': [],
-                    'status': 1
-                });
                 this.ticketSel = index;
             } else {
                 this.tickets[this.ticketSel].mesa = this.mesaSel;
@@ -475,17 +501,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             this.$modalAdd.modal('hide');
-        },
-        cambiaTicket: function cambiaTicket(index) {
-            __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
-                'id': index,
-                'listaProductos': this.tickets[index].listaProductos,
-                'status': this.tickets[index].status
-            });
-            this.ticketSel = index;
         }
     },
-    watch: {},
+    watch: {
+        'ticketSel': {
+            immediate: true,
+            handler: function handler(newVal, oldVal) {
+                if (this.tickets.length > 0 && newVal >= 0 && newVal < this.tickets.length) {
+                    __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('cambioDeTicket', {
+                        'id': newVal,
+                        'listaProductos': this.tickets[newVal].listaProductos,
+                        'status': this.tickets[newVal].status
+                    });
+                }
+            }
+        }
+    },
     computed: {
         deshabilitaNuevoTicket: function deshabilitaNuevoTicket() {
             return this.mesaSel == "" || this.meseroSel == -1;
@@ -1439,16 +1470,18 @@ var debounce = __webpack_require__(49);
 		};
 	},
 	created: function created() {
+		var _this = this;
+
 		this.getProductos = debounce(this.getProductos, 300);
 		__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('cambioDeTicket', function (ticket) {
-			closed = ticket.status > 1;
+			_this.closed = ticket.status > 1;
 		});
 	},
 	mounted: function mounted() {
-		var _this = this;
+		var _this2 = this;
 
 		axios.get('consumos/categorias').then(function (response) {
-			_this.categorias = response.data;
+			_this2.categorias = response.data;
 		});
 
 		this.categoriaSeleccionada.id = 1;
@@ -1456,16 +1489,16 @@ var debounce = __webpack_require__(49);
 
 	methods: {
 		getProductos: function getProductos() {
-			var _this2 = this;
+			var _this3 = this;
 
 			if (this.categoriaSeleccionada.id in this.menu) {
 				this.categoriaSeleccionada.obj = this.menu[this.categoriaSeleccionada.id];
 			} else {
 				var parameter = this.categoriaSeleccionada.id > 0 ? this.categoriaSeleccionada.id : this.busqueda;
 				axios.get('consumos/productos/' + parameter).then(function (response) {
-					_this2.categoriaSeleccionada.obj = response.data;
+					_this3.categoriaSeleccionada.obj = response.data;
 					// solo guardo en caché cuando cat > 0 y la categoria aun no esté en el menu
-					if (_this2.categoriaSeleccionada.id > 0 && !(_this2.categoriaSeleccionada.id in _this2.menu)) _this2.menu[_this2.categoriaSeleccionada['id']] = response.data;
+					if (_this3.categoriaSeleccionada.id > 0 && !(_this3.categoriaSeleccionada.id in _this3.menu)) _this3.menu[_this3.categoriaSeleccionada['id']] = response.data;
 				});
 			}
 		},
@@ -1800,7 +1833,7 @@ var render = function() {
                   attrs: { href: "javascript:void(0)" },
                   on: {
                     click: function($event) {
-                      _vm.cambiaTicket(index)
+                      _vm.ticketSel = index
                     }
                   }
                 },

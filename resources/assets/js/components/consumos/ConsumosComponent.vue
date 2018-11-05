@@ -6,7 +6,7 @@
                 <li v-for="(ticket, index) in tickets" :key="index" class="nav-item">
                     <a :class="['nav-link', (index==ticketSel? 'active': '')]"
                     href="javascript:void(0)"
-                    @click="cambiaTicket(index)">
+                    @click="ticketSel = index">
                         {{ticket.mesa}}({{getStatus(ticket.status)}})
                     </a>
                 </li>
@@ -114,7 +114,7 @@
                         listaProductos: []
                     }*/
                 ],
-                ticketSel: 0,
+                ticketSel: -1,
                 mesas: [],
                 meseros: [],
                 mesaSel: "",
@@ -134,7 +134,7 @@
                     'tickets' : [
                         {
                         'mesa' : this.tickets[id].mesa,
-                        'mesero' : this.tickets[id].mesero,
+                        'mesero' : this.tickets[id].mesero.id,
                         'status' : 1,
                         'productos' : this.tickets[id].listaProductos
                         }
@@ -150,7 +150,7 @@
                 axios
                 .post('consumos/create', data, config);
             });
-           
+            document.addEventListener('beforeunload', this.saveAll);
         },
         mounted()
         {
@@ -164,12 +164,45 @@
 			.then((response) => {
 				this.meseros = response.data;
             });
+
+            this.$nextTick( function(){
+                axios
+                .get('consumos/data')
+                .then((response) => {
+                    this.tickets = response.data;
+                    this.ticketSel = 0;
+                });
+            });
+            
             this.$modalAdd = $("#nuevoTicket");
             this.$modalAdd.modal({show:false});
             this.$modalAdd.on('hidden.bs.modal', this.clearForm);
         },
         methods:
         {
+            saveAll()
+            {
+                var data = {
+                    'tickets' : this.tickets.map( function( ticket )
+                    {
+                        return {
+                        'mesa' : ticket.mesa,
+                        'mesero' : ticket.mesero.id,
+                        'status' : ticket.status,
+                        'productos' : ticket.listaProductos
+                        };
+                    })
+                };
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                }
+
+                axios
+                .post('consumos/create', data, config);
+            },
             showMesa( mesa )
             {
                 var ticket = this.tickets.find( (item)=>{ return item.mesa == mesa && item.status < 3; });
@@ -214,11 +247,6 @@
                         'status': 1,
                         'listaProductos': []
                     })-1;
-                    productBus.$emit('cambioDeTicket',{
-                        'id' : index,
-                        'listaProductos': [],
-                        'status': 1
-                    });
                     this.ticketSel = index;
                 }
                 else
@@ -229,19 +257,23 @@
                 
                 this.$modalAdd.modal('hide');
             },
-            cambiaTicket: function( index )
-            {
-                productBus.$emit('cambioDeTicket',{
-                    'id' : index,
-                    'listaProductos': this.tickets[index].listaProductos,
-                    'status' : this.tickets[index].status
-                });
-                this.ticketSel = index;
-            }
         },
         watch:
         {
-
+            'ticketSel' : {
+                immediate : true,
+                handler(newVal, oldVal)
+                {
+                    if(this.tickets.length > 0 && (newVal >= 0 && newVal < this.tickets.length))
+                    {
+                        productBus.$emit('cambioDeTicket',{
+                            'id' : newVal,
+                            'listaProductos': this.tickets[newVal].listaProductos,
+                            'status' : this.tickets[newVal].status
+                        });
+                    }
+                }
+            }
         },
         computed:
         {

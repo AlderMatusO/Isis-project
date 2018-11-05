@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/consumos', 'Consumos\NotasController@index')->name('consumos');
+Route::get('/consumos/data', 'Consumos\NotasController@getConsumos')->name('datos');
 Route::get('/consumos/categorias', 'Consumos\NotasController@getCategorias')->name('categorias');
 Route::get('/consumos/productos/{parametro}', 'Consumos\NotasController@getProductos')->name('productos');
 Route::get('/consumos/precios/{id_producto}', 'Consumos\NotasController@getPrecios')->name('precios');

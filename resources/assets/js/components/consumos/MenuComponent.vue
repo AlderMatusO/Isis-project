@@ -105,7 +105,7 @@
 		{
 			this.getProductos = debounce( this.getProductos, 300);
 			productBus.$on('cambioDeTicket', (ticket) => {
-				closed = ticket.status > 1;
+				this.closed = ticket.status > 1;
 			});
 		},
 		mounted()

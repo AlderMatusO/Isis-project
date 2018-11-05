@@ -60,31 +60,8 @@ class NotasController extends Controller
         $precios = PrecioProducto::where('producto_id', $id_producto)
         ->get()
         ->transform(function($item, $key){
-            $obj = collect($item->only(
-                ["id", "precio", "modo_servicio_id"]
-            ));
-            if( $item->modo_servicio->id == 8 )
-            {
-                if($item->producto->tipo_id == 19)
-                {
-                    $obj->put('modo_servicio','Taza');
-                }
-                else
-                {
-                    if($item->producto->categoria_id==4 && !in_array($item->producto->tipo_id, [15,17]))
-                    {
-                        $obj->put('modo_servicio', 'Copa');
-                    }
-                    else
-                    {
-                        $obj->put('modo_servicio','Vaso');
-                    }
-                }
-            }
-            else
-            {
-                $obj->put('modo_servicio',$item->modo_servicio->descripcion);
-            }
+            $obj = collect($item->only(["id", "precio", "modo_servicio_id"]));
+            $obj->put('modo_servicio',$item->modo_servicio_desc);
             return $obj;
         })->keyBy("id");
         
@@ -115,8 +92,27 @@ class NotasController extends Controller
 
     public function getConsumos()
     {
-        $consumos = Consumo::where(['estado_id', '<', 2])->get();
-        
+        return Consumo::where('estado_id', '<', 2)->get()
+        ->transform( function($item)
+        {
+            $obj = collect($item->only(['id']));
+            $obj->put('mesa', $item->mesa_id);
+            $obj->put('mesero', ['id' => $item->mesero->nombre, 'nombre' => $item->mesero->datos->nombreCompleto]);
+            $obj->put('listaProductos', $item->notas->first()->productos
+                ->transform( function($prod){
+                    $cltn = collect($prod->only(['id', 'precio', 'modo_servicio_id']));
+                    $cltn->put('cantidad', floatval($prod->pivot->cantidad));
+                    $cltn->put('modo_servicio', $prod->modo_servicio_desc);
+                    $cltn->put('nombre', $prod->producto->nombre);
+                    $cltn->put('selected', false);
+                    return $cltn;
+                })
+            );
+            $obj->put('status', $item->estado_id);
+            return $obj;
+        })
+        ->toJson();
+
     }
 
     public function saveConsumo(Request $request)
