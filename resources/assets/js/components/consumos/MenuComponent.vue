@@ -107,6 +107,10 @@
 			productBus.$on('cambioDeTicket', (ticket) => {
 				this.closed = ticket.status > 1;
 			});
+			
+			productBus.$on('closeTicket', (ticket) => {
+				this.closed = true;
+			});
 		},
 		mounted()
 		{

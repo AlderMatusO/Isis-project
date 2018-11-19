@@ -92,7 +92,7 @@ class NotasController extends Controller
 
     public function getConsumos()
     {
-        return Consumo::where('estado_id', '<', 2)->get()
+        return Consumo::where('estado_id', '<=', 2)->get()
         ->transform( function($item)
         {
             $obj = collect($item->only(['id']));

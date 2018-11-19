@@ -5,7 +5,7 @@
                 <h5>Productos</h5>
                 <button
                 type="button"
-                :class="['btn', 'btn-secondary', (isProdSelected? 'visible' : 'invisible')]"
+                :class="['btn', 'btn-secondary', (isProdSelected && status < 2? 'visible' : 'invisible')]"
                 @click="deleteSelection"
                 data-toggle="tooltip"
                 title="Eliminar Producto">
@@ -13,9 +13,10 @@
                 </button>
                 <button
                 type="button"
-                :class="['btn', 'btn-secondary', (listaProductos.length >= 1? 'visible' : 'invisible')]"
+                :class="['btn', 'btn-secondary', (listaProductos.length >= 1 && status < 2? 'visible' : 'invisible')]"
                 data-toggle="tooltip"
-                title="Cerrar Cuenta">
+                title="Cerrar Cuenta"
+                @click="closeTicket">
                     <i class="fas fa-bell-slash"/>
                 </button>
                 <button
@@ -150,6 +151,11 @@
         },
         methods:
         {
+            closeTicket: function()
+            {
+                productBus.$emit('closeTicket', this.ticketId);
+                this.status = 2;
+            },
             clearForm: function()
             {
                 this.productoActual.id = 0;

@@ -133,9 +133,10 @@
                 var data = {
                     'tickets' : [
                         {
+                        'id' : this.tickets[id].id,
                         'mesa' : this.tickets[id].mesa,
                         'mesero' : this.tickets[id].mesero.id,
-                        'status' : 1,
+                        'status' : 2,
                         'productos' : this.tickets[id].listaProductos
                         }
                     ]
@@ -148,9 +149,14 @@
                 }
 
                 axios
-                .post('consumos/create', data, config);
+                .post('consumos/save', data, config)
+                .then((response) => {
+                    if( this.tickets[id].id == -1 )
+                        this.tickets[id].id = response.data;
+                    this.tickets[id].status = 2;
+                });
             });
-            document.addEventListener('beforeunload', this.saveAll);
+            window.addEventListener('beforeunload', this.saveAll);
         },
         mounted()
         {
@@ -170,10 +176,16 @@
                 .get('consumos/data')
                 .then((response) => {
                     this.tickets = response.data;
-                    this.ticketSel = 0;
+                    if(response.data.length > 0)
+                    {
+                        var $this = this;
+                        setTimeout(function(){
+                            $this.ticketSel = 0;
+                        }, 200);
+                    }
                 });
             });
-            
+
             this.$modalAdd = $("#nuevoTicket");
             this.$modalAdd.modal({show:false});
             this.$modalAdd.on('hidden.bs.modal', this.clearForm);
@@ -182,26 +194,30 @@
         {
             saveAll()
             {
-                var data = {
-                    'tickets' : this.tickets.map( function( ticket )
-                    {
-                        return {
-                        'mesa' : ticket.mesa,
-                        'mesero' : ticket.mesero.id,
-                        'status' : ticket.status,
-                        'productos' : ticket.listaProductos
-                        };
-                    })
-                };
-                var config = {
-                    headers : {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                if( this.tickets.length > 0)
+                {
+                    var data = {
+                        'tickets' : this.tickets.map( function( ticket )
+                        {
+                            return {
+                            'id' : ticket.id,
+                            'mesa' : ticket.mesa,
+                            'mesero' : ticket.mesero.id,
+                            'status' : ticket.status,
+                            'productos' : ticket.listaProductos
+                            };
+                        })
+                    };
+                    var config = {
+                        headers : {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
                     }
-                }
 
-                axios
-                .post('consumos/create', data, config);
+                    axios
+                    .post('consumos/save', data, config);
+                }
             },
             showMesa( mesa )
             {

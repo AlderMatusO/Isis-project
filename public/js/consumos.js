@@ -388,9 +388,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('closeTicket', function (id) {
             var data = {
                 'tickets': [{
+                    'id': _this.tickets[id].id,
                     'mesa': _this.tickets[id].mesa,
                     'mesero': _this.tickets[id].mesero.id,
-                    'status': 1,
+                    'status': 2,
                     'productos': _this.tickets[id].listaProductos
                 }]
             };
@@ -401,9 +402,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             };
 
-            axios.post('consumos/create', data, config);
+            axios.post('consumos/save', data, config).then(function (response) {
+                if (_this.tickets[id].id == -1) _this.tickets[id].id = response.data;
+                _this.tickets[id].status = 2;
+            });
         });
-        document.addEventListener('beforeunload', this.saveAll);
+        window.addEventListener('beforeunload', this.saveAll);
     },
     mounted: function mounted() {
         var _this2 = this;
@@ -420,7 +424,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('consumos/data').then(function (response) {
                 _this3.tickets = response.data;
-                _this3.ticketSel = 0;
+                if (response.data.length > 0) {
+                    var $this = _this3;
+                    setTimeout(function () {
+                        $this.ticketSel = 0;
+                    }, 200);
+                }
             });
         });
 
@@ -431,24 +440,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         saveAll: function saveAll() {
-            var data = {
-                'tickets': this.tickets.map(function (ticket) {
-                    return {
-                        'mesa': ticket.mesa,
-                        'mesero': ticket.mesero.id,
-                        'status': ticket.status,
-                        'productos': ticket.listaProductos
-                    };
-                })
-            };
-            var config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            };
+            if (this.tickets.length > 0) {
+                var data = {
+                    'tickets': this.tickets.map(function (ticket) {
+                        return {
+                            'id': ticket.id,
+                            'mesa': ticket.mesa,
+                            'mesero': ticket.mesero.id,
+                            'status': ticket.status,
+                            'productos': ticket.listaProductos
+                        };
+                    })
+                };
+                var config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                };
 
-            axios.post('consumos/create', data, config);
+                axios.post('consumos/save', data, config);
+            }
         },
         showMesa: function showMesa(mesa) {
             var ticket = this.tickets.find(function (item) {
@@ -692,6 +704,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -728,6 +741,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        closeTicket: function closeTicket() {
+            __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('closeTicket', this.ticketId);
+            this.status = 2;
+        },
         clearForm: function clearForm() {
             this.productoActual.id = 0;
         },
@@ -990,7 +1007,7 @@ var render = function() {
             class: [
               "btn",
               "btn-secondary",
-              _vm.isProdSelected ? "visible" : "invisible"
+              _vm.isProdSelected && _vm.status < 2 ? "visible" : "invisible"
             ],
             attrs: {
               type: "button",
@@ -1008,13 +1025,16 @@ var render = function() {
             class: [
               "btn",
               "btn-secondary",
-              _vm.listaProductos.length >= 1 ? "visible" : "invisible"
+              _vm.listaProductos.length >= 1 && _vm.status < 2
+                ? "visible"
+                : "invisible"
             ],
             attrs: {
               type: "button",
               "data-toggle": "tooltip",
               title: "Cerrar Cuenta"
-            }
+            },
+            on: { click: _vm.closeTicket }
           },
           [_c("i", { staticClass: "fas fa-bell-slash" })]
         ),
@@ -1475,6 +1495,10 @@ var debounce = __webpack_require__(49);
 		this.getProductos = debounce(this.getProductos, 300);
 		__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('cambioDeTicket', function (ticket) {
 			_this.closed = ticket.status > 1;
+		});
+
+		__WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('closeTicket', function (ticket) {
+			_this.closed = true;
 		});
 	},
 	mounted: function mounted() {
