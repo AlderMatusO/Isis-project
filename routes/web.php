@@ -25,4 +25,5 @@ Route::get('/consumos/productos/{parametro}', 'Consumos\NotasController@getProdu
 Route::get('/consumos/precios/{id_producto}', 'Consumos\NotasController@getPrecios')->name('precios');
 Route::get('/consumos/mesas/', 'Consumos\NotasController@getMesas')->name('mesas');
 Route::get('/consumos/meseros/', 'Consumos\NotasController@getMeseros')->name('meseros');
+Route::get('/consumos/print/{id_consumo}', 'Consumos\NotasController@printTicket')->name('print');
 Route::post('/consumos/save/', 'Consumos\NotasController@saveConsumo')->name('save');

@@ -407,6 +407,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.tickets[id].status = 2;
             });
         });
+
+        __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$on('printTicket', function (id) {
+            axios.get('consumos/print/' + _this.tickets[id].id);
+        });
         window.addEventListener('beforeunload', this.saveAll);
     },
     mounted: function mounted() {
@@ -705,6 +709,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -741,6 +747,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        printTicket: function printTicket() {
+            __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('printTicket', this.ticketId);
+        },
         closeTicket: function closeTicket() {
             __WEBPACK_IMPORTED_MODULE_0__consumos_js__["productBus"].$emit('closeTicket', this.ticketId);
             this.status = 2;
@@ -1051,7 +1060,8 @@ var render = function() {
               type: "button",
               "data-toggle": "tooltip",
               title: "Impimir Recibo"
-            }
+            },
+            on: { click: _vm.printTicket }
           },
           [_c("i", { staticClass: "fas fa-print" })]
         )

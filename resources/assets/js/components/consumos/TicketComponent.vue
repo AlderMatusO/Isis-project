@@ -23,7 +23,8 @@
                 type="button"
                 :class="['btn', 'btn-primary', (status > 1? 'visible' : 'invisible')]"
                 data-toggle="tooltip"
-                title="Impimir Recibo">
+                title="Impimir Recibo"
+                @click="printTicket">
                     <i class="fas fa-print"/>
                 </button>
             </div>
@@ -113,6 +114,7 @@
 
 <script>
     import { productBus } from './../../consumos.js'
+    
     export default {
         data()
         {
@@ -151,6 +153,10 @@
         },
         methods:
         {
+            printTicket: function()
+            {
+                productBus.$emit('printTicket', this.ticketId);
+            },
             closeTicket: function()
             {
                 productBus.$emit('closeTicket', this.ticketId);

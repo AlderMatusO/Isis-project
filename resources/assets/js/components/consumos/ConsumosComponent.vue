@@ -95,7 +95,7 @@
 </template>
 <script>
     import { productBus } from './../../consumos.js'
-
+    
 	export default {
         components:
         {
@@ -155,6 +155,10 @@
                         this.tickets[id].id = response.data;
                     this.tickets[id].status = 2;
                 });
+            });
+
+            productBus.$on('printTicket', (id) => {
+                axios.get('consumos/print/' + this.tickets[id].id);
             });
             window.addEventListener('beforeunload', this.saveAll);
         },
